@@ -236,14 +236,14 @@ class LazySeqStream<E> implements Stream<E> {
 		return collector.finisher().apply(result);
 	}
 
-    @Override
-    public Stream<E> onClose(Runnable closeHandler) {
-	    closeHandlers.add(closeHandler);
-	    return this;
-    }
+	@Override
+	public Stream<E> onClose(Runnable closeHandler) {
+		closeHandlers.add(closeHandler);
+		return this;
+	}
 
-    @Override
-    public void close() {
-	    closeHandlers.forEach(Runnable::run);
-    }
+	@Override
+	public void close() {
+		closeHandlers.forEach(Runnable::run);
+	}
 }
