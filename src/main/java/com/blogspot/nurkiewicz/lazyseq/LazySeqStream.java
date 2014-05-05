@@ -1,9 +1,6 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
@@ -13,7 +10,8 @@ import java.util.stream.*;
  */
 class LazySeqStream<E> implements Stream<E> {
 
-	private final LazySeq<E> underlying;
+	protected final LazySeq<E> underlying;
+	protected List<Runnable> closeHandlers = new ArrayList<>();
 
 	LazySeqStream(LazySeq<E> underlying) {
 		this.underlying = underlying;
@@ -240,11 +238,12 @@ class LazySeqStream<E> implements Stream<E> {
 
     @Override
     public Stream<E> onClose(Runnable closeHandler) {
-        throw new UnsupportedOperationException("Not yet implemented: onClose");
+	    closeHandlers.add(closeHandler);
+	    return this;
     }
 
     @Override
     public void close() {
-        throw new UnsupportedOperationException("Not yet implemented: close");
+	    closeHandlers.forEach(Runnable::run);
     }
 }
