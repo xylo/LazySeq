@@ -3,6 +3,7 @@ package com.blogspot.nurkiewicz.lazyseq;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -253,6 +254,34 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	 */
 	public List<E> toList() {
 		return Collections.unmodifiableList(this.force());
+	}
+
+	/**
+	 * Converts this {@link LazySeq} to an immutable {@link Map} using the given key and value functions.
+	 *
+	 * Notice that this method will eventually fail at runtime when called on infinite sequence.
+	 * @return {@link Map} of all elements in this lazy sequence.
+	 */
+	public <K,V> Map<K,V> toMap(Function<E,K> key, Function<E,V> value) {
+		return Collections.unmodifiableMap(this.force().stream().collect(Collectors.toMap(key, value)));
+	}
+
+	/** Groups this {@link LazySeq} using the given key function and returns the {@link LazyTupleSeq} */
+	public <K> LazyTupleSeq<K,List<E>> groupBy(Function<E, K> key) {
+		return new LazyTupleSeq<K,List<E>>(this.force().stream().collect(Collectors.groupingBy(key)));
+	}
+
+	public <K,V> LazyTupleSeq<K,List<V>> groupBy(Function<E,K> key, Function<E,V> value) {
+		return groupBy(key, value, Collectors.toList());
+	}
+
+
+	public <K,V,R> LazyTupleSeq<K,R> groupBy(Function<E,K> key, Function<E,V> value, Collector<V,?,R> valueCollector) {
+		return groupBy(key, Collectors.mapping(value, valueCollector));
+	}
+
+	public <K,V> LazyTupleSeq<K,V> groupBy(Function<E,K> key, Collector<E, ?, V> valuesCollector) {
+		return new LazyTupleSeq<K,V>(this.force().stream().collect(Collectors.groupingBy(key, valuesCollector)));
 	}
 
 	public LazySeq<E> take(long maxSize) {
