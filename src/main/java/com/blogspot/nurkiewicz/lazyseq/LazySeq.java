@@ -248,8 +248,9 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 
 	/**
 	 * Converts this {@link LazySeq} to immutable {@link List}.
-	 *
+	 * <p/>
 	 * Notice that this method will eventually fail at runtime when called on infinite sequence.
+	 *
 	 * @return {@link List} of all elements in this lazy sequence.
 	 */
 	public List<E> toList() {

@@ -223,11 +223,11 @@ class LazySeqStream<E> implements Stream<E> {
 		return result;
 	}
 
-    @SuppressWarnings("unchecked")
-    @Override
+	@SuppressWarnings("unchecked")
+	@Override
 	public <R, A> R collect(Collector<? super E, A, R> collector) {
 		if (collector instanceof DummyLazySeqCollector) {
-            return (R) underlying;
+			return (R) underlying;
 		}
 		A result = collector.supplier().get();
 		for (E element : underlying) {
