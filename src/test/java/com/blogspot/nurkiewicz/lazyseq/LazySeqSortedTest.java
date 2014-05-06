@@ -70,4 +70,15 @@ public class LazySeqSortedTest extends AbstractBaseTestCase {
 		assertThat(sorted).isEqualTo(of("", "c", "ab", "def", "ghjkl"));
 	}
 
+	@Test
+	public void shouldSortStringsByCustomAttribute() throws Exception {
+		final LazySeq<String> fixed = of("ab", "c", "", "ghjkl", "def");
+
+		//when
+		final LazySeq<String> sorted = fixed.sortedBy(s -> s.length());
+
+		//when
+		assertThat(sorted).isEqualTo(of("", "c", "ab", "def", "ghjkl"));
+	}
+
 }

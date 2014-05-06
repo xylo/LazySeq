@@ -466,6 +466,11 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return of(list);
 	}
 
+	/** Sorts this {@link LazySeq} regarding the given attribute. */
+	public LazySeq<E> sortedBy(Function<E, ? extends Comparable> attribute) {
+		return sorted(Comparator.comparing(attribute));
+	}
+
 	public boolean startsWith(Iterable<E> prefix) {
 		return startsWith(prefix.iterator());
 	}
