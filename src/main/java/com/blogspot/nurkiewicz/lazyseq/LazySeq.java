@@ -240,6 +240,10 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 
 	public abstract LazySeq<E> filter(Predicate<? super E> predicate);
 
+	public Optional<E> find(Predicate<? super E> predicate) {
+		return filter(predicate).headOption();
+	}
+
 	public abstract <R> LazySeq<R> flatMap(Function<? super E, ? extends Iterable<? extends R>> mapper);
 
 	public LazySeq<E> limit(long maxSize) {
