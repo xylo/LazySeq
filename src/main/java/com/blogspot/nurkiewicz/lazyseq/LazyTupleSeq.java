@@ -1,7 +1,5 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -78,6 +76,14 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 
 	public <R> LazyTupleSeq<K,R> mapValues(Function<V, R> valueMapper) {
 		return new LazyTupleSeq<>(map(t -> new Tuple<>(t._1, valueMapper.apply(t._2))));
+	}
+
+	public LazySeq<K> keys() {
+		return underlyingSeq.get().map(t -> t._1);
+	}
+
+	public LazySeq<V> values() {
+		return underlyingSeq.get().map(t -> t._2);
 	}
 
 	public Map<K, V> toMap() {

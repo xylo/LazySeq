@@ -2,9 +2,11 @@ package com.blogspot.nurkiewicz.lazyseq;
 
 /**
  * An immutable tuple.
- * Import static function {@link Shortcuts#t(T1,T2)} as shortcut for creating tuples.
+ * Import static function {@link Shortcuts#t} as shortcut for creating tuples.
  *
- * @author Stefan Endrullis (endrullis@iat.uni-leipzig.de)
+ * @param <T1> type of the first tuple element
+ * @param <T2> type of the second tuple element
+ * @author Stefan Endrullis (stefan@endrullis.de)
  */
 public class Tuple<T1,T2> {
 	/** The first element of this tuple. */
@@ -12,7 +14,12 @@ public class Tuple<T1,T2> {
 	/** The second element of this tuple. */
 	public final T2 _2;
 
-	/** Creates an immutable tuple. */
+	/**
+	 * Creates an immutable tuple.
+	 *
+	 * @param t1 first tuple element
+	 * @param t2 second tuple element
+	 */
 	public Tuple(T1 t1, T2 t2) {
 		this._1 = t1;
 		this._2 = t2;

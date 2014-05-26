@@ -200,6 +200,9 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	/**
 	 * Returns a string representation of this {@link LazySeq} by concatenating the elements
 	 * using the separator <code>sep</code>.
+	 *
+	 * @param sep separator
+	 * @return string representation of this {@link LazySeq} by concatenating the elements
 	 */
 	public String mkString(String sep) {
 		return mkString("", sep, "");
@@ -209,6 +212,11 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	 * Returns a string representation of this {@link LazySeq}.
 	 * The string result starts with the string <code>start</code> and ends with <code>end</code>,
 	 * whereas <code>sep</code> is as separator string between the elements of this sequence.
+	 *
+	 * @param start string that is added in front of the element concatenation
+	 * @param sep separator
+	 * @param end string that is appended to the element concatenation
+	 * @return string representation of this {@link LazySeq} by concatenating the elements
 	 */
 	public String mkString(String start, String sep, String end) {
 		return mkString(start, sep, end, false);
@@ -219,6 +227,12 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	 * The string result starts with the string <code>start</code> and ends with <code>end</code>,
 	 * whereas <code>sep</code> is as separator string between the elements of this sequence.
 	 * If <code>lazy</code> is <code>true</code> the evaluation stops at the first unspecific element.
+	 *
+	 * @param start string that is added in front of the element concatenation
+	 * @param sep separator
+	 * @param end string that is appended to the element concatenation
+	 * @param lazy if <code>true</code> the evaluation stops at the first unspecific element
+	 * @return string representation of this {@link LazySeq} by concatenating the elements
 	 */
 	public String mkString(String start, String sep, String end, boolean lazy) {
 		final StringBuilder s = new StringBuilder(start);
@@ -252,8 +266,8 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 
 	/**
 	 * Converts this {@link LazySeq} to immutable {@link List}.
-	 * <p/>
-	 * Notice that this method will eventually fail at runtime when called on infinite sequence.
+	 *
+	 * <p>Notice that this method will eventually fail at runtime when called on infinite sequence.</p>
 	 *
 	 * @return {@link List} of all elements in this lazy sequence.
 	 */
@@ -264,29 +278,68 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	/**
 	 * Converts this {@link LazySeq} to an immutable {@link Map} using the given key and value functions.
 	 *
-	 * Notice that this method will eventually fail at runtime when called on infinite sequence.
+	 * <p>Notice that this method will eventually fail at runtime when called on infinite sequence.</p>
+	 *
+	 * @param <K> type of the keys
+	 * @param <V> type of the values
+	 * @param key function that returns the key for an element
+	 * @param value function that returns the value for an element
 	 * @return {@link Map} of all elements in this lazy sequence.
 	 */
 	public <K,V> Map<K,V> toMap(Function<E,K> key, Function<E,V> value) {
 		return Collections.unmodifiableMap(this.force().stream().collect(Collectors.toMap(key, value)));
 	}
 
-	/** Groups this {@link LazySeq} using the given key function and returns the {@link LazyTupleSeq} */
+	/**
+	 * Groups this {@link LazySeq} using the given key function and returns the {@link LazyTupleSeq}.
+	 *
+	 * @param <K> type of the keys
+	 * @param key function that returns the key for an element used for grouping the elements
+	 * @return lazy sequence of tuples
+	 */
 	public <K> LazyTupleSeq<K,List<E>> groupBy(Function<E, K> key) {
 		return new LazyTupleSeq<K,List<E>>(this.force().stream().collect(Collectors.groupingBy(key)));
 	}
 
+	/**
+	 * Groups this {@link LazySeq} using the given key and value functions and returns the {@link LazyTupleSeq}.
+	 *
+	 * @param <K> type of the keys
+	 * @param <V> type of the values
+	 * @param key function that returns the key for an element used for grouping the elements
+	 * @param value function that returns the value for an element while grouping
+	 * @return lazy sequence of tuples
+	 */
 	public <K,V> LazyTupleSeq<K,List<V>> groupBy(Function<E,K> key, Function<E,V> value) {
 		return groupBy(key, value, Collectors.toList());
 	}
 
-
+	/**
+	 * Groups this {@link LazySeq} using the given key and value functions and returns the {@link LazyTupleSeq}.
+	 *
+	 * @param <K> type of the keys
+	 * @param <V> type of the values
+	 * @param <R> type of the values collection
+	 * @param key function that returns the key for an element used for grouping the elements
+	 * @param value function that returns the value for an element while grouping
+	 * @param valueCollector collector for the values of the elements
+	 * @return lazy sequence of tuples
+	 */
 	public <K,V,R> LazyTupleSeq<K,R> groupBy(Function<E,K> key, Function<E,V> value, Collector<V,?,R> valueCollector) {
 		return groupBy(key, Collectors.mapping(value, valueCollector));
 	}
 
-	public <K,V> LazyTupleSeq<K,V> groupBy(Function<E,K> key, Collector<E, ?, V> valuesCollector) {
-		return new LazyTupleSeq<K,V>(this.force().stream().collect(Collectors.groupingBy(key, valuesCollector)));
+	/**
+	 * Groups this {@link LazySeq} using the given key and returns the {@link LazyTupleSeq}.
+	 *
+	 * @param <K> type of the keys
+	 * @param <V> type of the values
+	 * @param key function that returns the key for an element used for grouping the elements
+	 * @param elementCollector collector for the elements
+	 * @return lazy sequence of tuples
+	 */
+	public <K,V> LazyTupleSeq<K,V> groupBy(Function<E,K> key, Collector<E, ?, V> elementCollector) {
+		return new LazyTupleSeq<K,V>(this.force().stream().collect(Collectors.groupingBy(key, elementCollector)));
 	}
 
 	public LazySeq<E> take(long maxSize) {
@@ -500,7 +553,12 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return of(list);
 	}
 
-	/** Sorts this {@link LazySeq} regarding the given attribute. */
+	/**
+	 * Sorts this {@link LazySeq} regarding the given attribute.
+	 *
+	 * @param attribute function that maps the elements to the attribute the sequence shall be sorted on
+	 * @return sorted {@link LazySeq}
+	 */
 	public LazySeq<E> sortedBy(Function<E, ? extends Comparable> attribute) {
 		return sorted(Comparator.comparing(attribute));
 	}
