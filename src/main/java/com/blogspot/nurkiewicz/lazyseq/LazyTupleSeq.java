@@ -1,5 +1,7 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -63,6 +65,21 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	@Override
 	public <R> LazySeq<R> flatMap(Function<? super Tuple<K, V>, ? extends Iterable<? extends R>> mapper) {
 		return underlyingSeq.get().flatMap(mapper);
+	}
+
+	@Override
+	public LazyTupleSeq<K, V> sorted() {
+		return sorted((o1, o2) -> ((Comparable<Tuple<K, V>>) o1).compareTo(o2));
+	}
+
+	@Override
+	public LazyTupleSeq<K, V> sorted(Comparator<? super Tuple<K, V>> comparator) {
+		return new LazyTupleSeq<>(super.sorted(comparator));
+	}
+
+	@Override
+	public LazyTupleSeq<K, V> sortedBy(Function<Tuple<K, V>, ? extends Comparable> attribute) {
+		return sorted(Comparator.comparing(attribute));
 	}
 
 	@Override
