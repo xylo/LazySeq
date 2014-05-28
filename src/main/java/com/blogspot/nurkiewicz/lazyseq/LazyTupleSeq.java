@@ -1,11 +1,8 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
@@ -20,22 +17,22 @@ import java.util.stream.Collectors;
  * @deprecated This is only a temporary helper class which will be restructured.
  */
 public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
-	protected final Supplier<Map<K, V>> underlyingMap;
-	protected final Supplier<LazySeq<Tuple<K,V>>> underlyingSeq;
+	protected final Supplier<Map<K, V>>            underlyingMap;
+	protected final Supplier<LazySeq<Tuple<K, V>>> underlyingSeq;
+	protected final IntSupplier                    underlyingSize;
+	protected final boolean                        empty;
 
 	public LazyTupleSeq(Map<K, V> map) {
 		this.underlyingMap = () -> map;
 		this.underlyingSeq = () -> LazySeq.of(map.entrySet()).map(e -> new Tuple<>(e.getKey(), e.getValue()));
+		this.underlyingSize = () -> map.size();
+		this.empty = map.isEmpty();
 	}
 
 	public LazyTupleSeq(LazySeq<Tuple<K, V>> seq) {
 		this.underlyingMap = () -> seq.stream().collect(Collectors.toMap(t -> t._1, t -> t._2));
 		this.underlyingSeq = () -> seq;
-	}
-
-	public LazyTupleSeq(Supplier<Map<K, V>> map, Supplier<LazySeq<Tuple<K, V>>> seq) {
-		this.underlyingMap = map;
-		this.underlyingSeq = seq;
+		this.underlyingSize = () -> seq.size(); this.empty = seq.isEmpty();
 	}
 
 	@Override
@@ -65,6 +62,16 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	@Override
 	public <R> LazySeq<R> flatMap(Function<? super Tuple<K, V>, ? extends Iterable<? extends R>> mapper) {
 		return underlyingSeq.get().flatMap(mapper);
+	}
+
+	@Override
+	public int size() {
+		return underlyingSize.getAsInt();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return empty;
 	}
 
 	@Override
