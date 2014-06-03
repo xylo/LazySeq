@@ -55,8 +55,8 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	}
 
 	@Override
-	public LazySeq<Tuple<K, V>> filter(Predicate<? super Tuple<K, V>> predicate) {
-		return underlyingSeq.get().filter(predicate);
+	public LazyTupleSeq<K, V> filter(Predicate<? super Tuple<K, V>> predicate) {
+		return new LazyTupleSeq<>(underlyingSeq.get().filter(predicate));
 	}
 
 	@Override
