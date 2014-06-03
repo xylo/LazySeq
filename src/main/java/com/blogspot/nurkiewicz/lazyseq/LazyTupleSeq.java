@@ -30,7 +30,7 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	}
 
 	public LazyTupleSeq(LazySeq<Tuple<K, V>> seq) {
-		this.underlyingMap = () -> seq.stream().collect(Collectors.toMap(t -> t._1, t -> t._2));
+		this.underlyingMap = () -> StreamUtils.toMap(seq.stream(), t -> t._1, t -> t._2);
 		this.underlyingSeq = () -> seq;
 		this.underlyingSize = () -> seq.size(); this.empty = seq.isEmpty();
 	}

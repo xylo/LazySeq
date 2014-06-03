@@ -298,13 +298,7 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	 * @return {@link Map} of all elements in this lazy sequence.
 	 */
 	public <K,V> Map<K,V> toMap(Function<E,K> key, Function<E,V> value) {
-		// Since Collectors.toMap fails if you have null values we cannot use the following solution:
-		//return Collections.unmodifiableMap(this.force().stream().collect(Collectors.toMap(key, value)));
-
-		// Instead we build up our own HashMap that of course is able to  handle null values
-		HashMap<K,V> map = new HashMap<>();
-		forEach(x -> map.put(key.apply(x), value.apply(x)));
-		return Collections.unmodifiableMap(map);
+		return Collections.unmodifiableMap(StreamUtils.toMap(this.force().stream(), key, value));
 	}
 
 	/**
