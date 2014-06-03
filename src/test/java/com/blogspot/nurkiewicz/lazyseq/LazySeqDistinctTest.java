@@ -2,6 +2,8 @@ package com.blogspot.nurkiewicz.lazyseq;
 
 import org.testng.annotations.Test;
 
+import java.util.Set;
+
 import static com.blogspot.nurkiewicz.lazyseq.LazySeq.*;
 import static com.blogspot.nurkiewicz.lazyseq.samples.Seqs.primes;
 import static java.util.Arrays.asList;
@@ -88,6 +90,18 @@ public class LazySeqDistinctTest extends AbstractBaseTestCase {
 
 		//then
 		assertThat(dist.toList()).containsOnly(1, 2, 3, 4, 5);
+	}
+
+	@Test
+	public void shouldReturnAllDistinctElementsAsSet() throws Exception {
+		//given
+		final LazySeq<Integer> oneToFiveWithDups = of(1, 4, 2, 5, 3, 4, 3, 3, 2, 1, 5);
+
+		//when
+		final Set<Integer> dist = oneToFiveWithDups.toSet();
+
+		//then
+		assertThat(dist).containsOnly(1, 2, 3, 4, 5);
 	}
 
 	@Test

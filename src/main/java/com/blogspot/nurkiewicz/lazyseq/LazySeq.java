@@ -276,6 +276,17 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	/**
+	 * Converts this {@link LazySeq} to immutable {@link Set}.
+	 *
+	 * <p>Notice that this method will eventually fail at runtime when called on infinite sequence.</p>
+	 *
+	 * @return {@link Set} of all elements in this lazy sequence.
+	 */
+	public Set<E> toSet() {
+		return Collections.unmodifiableSet(new HashSet<>(this.force()));
+	}
+
+	/**
 	 * Converts this {@link LazySeq} to an immutable {@link Map} using the given key and value functions.
 	 *
 	 * <p>Notice that this method will eventually fail at runtime when called on infinite sequence.</p>
