@@ -486,6 +486,10 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		}
 	}
 
+	public <S> LazyTupleSeq<E,S> zip(LazySeq<? extends S> second) {
+		return new LazyTupleSeq<E,S>(zip(second, (a,b) -> new Tuple<>(a,b)));
+	}
+
 	public LazySeq<E> takeWhile(Predicate<? super E> predicate) {
 		if (predicate.test(head())) {
 			return cons(head(), () -> tail().takeWhile(predicate));
