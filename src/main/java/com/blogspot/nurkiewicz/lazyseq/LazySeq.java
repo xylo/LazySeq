@@ -477,6 +477,14 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return allMatch(predicate.negate());
 	}
 
+	public boolean exists(Predicate<? super E> predicate) {
+		return anyMatch(predicate);
+	}
+
+	public boolean forall(Predicate<? super E> predicate) {
+		return allMatch(predicate);
+	}
+
 	public <S, R> LazySeq<R> zip(LazySeq<? extends S> second, BiFunction<? super E, ? super S, ? extends R> zipper) {
 		if (second.isEmpty()) {
 			return empty();
