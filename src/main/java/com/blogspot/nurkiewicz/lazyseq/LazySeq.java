@@ -494,6 +494,14 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		}
 	}
 
+	public LazyTupleSeq<E, Integer> zipWithIndex() {
+		return zipWithIndex(0);
+	}
+
+	public LazyTupleSeq<E, Integer> zipWithIndex(int startIndex) {
+		return zip(numbers(startIndex));
+	}
+
 	public <S> LazyTupleSeq<E,S> zip(LazySeq<? extends S> second) {
 		return new LazyTupleSeq<E,S>(zip(second, (a,b) -> new Tuple<>(a,b)));
 	}
