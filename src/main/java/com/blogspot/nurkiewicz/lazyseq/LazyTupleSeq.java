@@ -102,6 +102,10 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return new LazyTupleSeq<>(map(t -> new Tuple<>(t._1, valueMapper.apply(t._2))));
 	}
 
+	public <R> LazySeq<R> map(BiFunction<K, V, R> mapper) {
+		return map(t -> mapper.apply(t._1, t._2));
+	}
+
 	public LazySeq<K> keys() {
 		return underlyingSeq.get().map(t -> t._1);
 	}
