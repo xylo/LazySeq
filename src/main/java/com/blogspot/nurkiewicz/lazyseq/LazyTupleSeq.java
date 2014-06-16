@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
  * </ul>
  *
  * @author Stefan Endrullis (stefan@endrullis.de)
- * @deprecated This is only a temporary helper class which will be restructured.
  */
 public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	protected final Supplier<Map<K, V>>            underlyingMap;
