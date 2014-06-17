@@ -1,6 +1,7 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
 import java.util.*;
+import java.util.function.*;
 
 /**
  * Provides static imports that can be used as shortcuts for LazySeq and its companion classes.
@@ -20,6 +21,18 @@ public class Shortcuts {
 	 */
 	public static <T1,T2> Tuple<T1,T2> t(T1 t1, T2 t2) {
 		return new Tuple<>(t1, t2);
+	}
+
+	public static <T1,T2,R> Function<Tuple<T1,T2>,R> tupled(BiFunction<? super T1, ? super T2, ? extends R> function) {
+		return t -> function.apply(t._1, t._2);
+	}
+
+	public static <T1,T2> Predicate<Tuple<T1,T2>> tupled(BiPredicate<? super T1, ? super T2> predicate) {
+		return t -> predicate.test(t._1, t._2);
+	}
+
+	public static <T1,T2> Consumer<Tuple<T1,T2>> tupled(BiConsumer<? super T1, ? super T2> consumer) {
+		return t -> consumer.accept(t._1, t._2);
 	}
 
 	/**

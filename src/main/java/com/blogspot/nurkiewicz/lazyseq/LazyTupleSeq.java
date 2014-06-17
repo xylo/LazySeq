@@ -2,8 +2,11 @@ package com.blogspot.nurkiewicz.lazyseq;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.*;
 import java.util.stream.Collectors;
+
+import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.tupled;
 
 /**
  * Quick hack for having a {@link LazySeq} with tuples that provides also some map related functions such as
@@ -49,8 +52,22 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return underlyingSeq.get().isTailDefined();
 	}
 
+	@Override
 	public <R> LazySeq<R> map(Function<? super Tuple<K, V>, ? extends R> mapper) {
 		return underlyingSeq.get().map(mapper);
+	}
+
+	public <R> LazySeq<R> map(BiFunction<K, V, R> mapper) {
+		return map(tupled(mapper));
+	}
+
+	@Override
+	public <R> LazySeq<R> flatMap(Function<? super Tuple<K, V>, ? extends Iterable<? extends R>> mapper) {
+		return underlyingSeq.get().flatMap(mapper);
+	}
+
+	public <R> LazySeq<R> flatMap(BiFunction<? super K, ? super V, ? extends Iterable<? extends R>> mapper) {
+		return flatMap(tupled(mapper));
 	}
 
 	@Override
@@ -58,9 +75,26 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return new LazyTupleSeq<>(underlyingSeq.get().filter(predicate));
 	}
 
+	public LazyTupleSeq<K, V> filter(BiPredicate<? super K, ? super V> predicate) {
+		return filter(tupled(predicate));
+	}
+
 	@Override
-	public <R> LazySeq<R> flatMap(Function<? super Tuple<K, V>, ? extends Iterable<? extends R>> mapper) {
-		return underlyingSeq.get().flatMap(mapper);
+	public LazyTupleSeq<K,V> takeWhile(Predicate<? super Tuple<K, V>> predicate) {
+		return new LazyTupleSeq<>(underlyingSeq.get().takeWhile(predicate));
+	}
+
+	public LazyTupleSeq<K,V> takeWhile(BiPredicate<? super K, ? super V> predicate) {
+		return takeWhile(tupled(predicate));
+	}
+
+	@Override
+	public LazyTupleSeq<K,V> dropWhile(Predicate<? super Tuple<K, V>> predicate) {
+		return new LazyTupleSeq<>(underlyingSeq.get().dropWhile(predicate));
+	}
+
+	public LazyTupleSeq<K,V> dropWhile(BiPredicate<? super K, ? super V> predicate) {
+		return dropWhile(tupled(predicate));
 	}
 
 	@Override
@@ -84,8 +118,12 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	}
 
 	@Override
-	public LazyTupleSeq<K, V> sortedBy(Function<Tuple<K, V>, ? extends Comparable> attribute) {
+	public LazyTupleSeq<K, V> sortedBy(Function<? super Tuple<K, V>, ? extends Comparable> attribute) {
 		return sorted(Comparator.comparing(attribute));
+	}
+
+	public LazyTupleSeq<K, V> sortedBy(BiFunction<? super K, ? super V, ? extends Comparable> attribute) {
+		return sortedBy(tupled(attribute));
 	}
 
 	@Override
@@ -93,16 +131,24 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return underlyingSeq.get().takeUnsafe(maxSize);
 	}
 
-	public <R> LazyTupleSeq<R,V> mapKeys(Function<K,R> keyMapper) {
-		return new LazyTupleSeq<>(map(t -> new Tuple<>(keyMapper.apply(t._1), t._2)));
+	public <R> LazyTupleSeq<R,V> mapKeys(Function<? super K, ? extends R> keyMapper) {
+		return new LazyTupleSeq<R,V>(map(t -> new Tuple<>(keyMapper.apply(t._1), t._2)));
 	}
 
-	public <R> LazyTupleSeq<K,R> mapValues(Function<V, R> valueMapper) {
-		return new LazyTupleSeq<>(map(t -> new Tuple<>(t._1, valueMapper.apply(t._2))));
+	public <R> LazyTupleSeq<K,R> mapValues(Function<? super V, ? extends R> valueMapper) {
+		return new LazyTupleSeq<K,R>(map(t -> new Tuple<>(t._1, valueMapper.apply(t._2))));
 	}
 
-	public <R> LazySeq<R> map(BiFunction<K, V, R> mapper) {
-		return map(t -> mapper.apply(t._1, t._2));
+	public void forEach(BiConsumer<? super K, ? super V> action) {
+		forEach(tupled(action));
+	}
+
+	public <C extends Comparable<? super C>> Optional<Tuple<K,V>> maxBy(BiFunction<? super K, ? super V, C> property) {
+		return maxBy(tupled(property));
+	}
+
+	public <C extends Comparable<? super C>> Optional<Tuple<K,V>> minBy(BiFunction<? super K, ? super V, C> property) {
+		return minBy(tupled(property));
 	}
 
 	public LazySeq<K> keys() {
@@ -116,4 +162,25 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	public Map<K, V> toMap() {
 		return underlyingMap.get();
 	}
+
+	public boolean anyMatch(BiPredicate<? super K, ? super V> predicate) {
+		return anyMatch(tupled(predicate));
+	}
+
+	public boolean allMatch(BiPredicate<? super K, ? super V> predicate) {
+		return allMatch(tupled(predicate));
+	}
+
+	public boolean noneMatch(BiPredicate<? super K, ? super V> predicate) {
+		return noneMatch(tupled(predicate));
+	}
+
+	public boolean exists(BiPredicate<? super K, ? super V> predicate) {
+		return exists(tupled(predicate));
+	}
+
+	public boolean forall(BiPredicate<? super K, ? super V> predicate) {
+		return forall(tupled(predicate));
+	}
+
 }

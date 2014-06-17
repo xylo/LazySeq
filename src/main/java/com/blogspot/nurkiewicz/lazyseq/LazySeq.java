@@ -6,6 +6,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.t;
+
 /**
  * @author Tomasz Nurkiewicz
  * @since 5/6/13, 9:20 PM
@@ -414,28 +416,20 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return result;
 	}
 
-	public <C extends Comparable<? super C>> Optional<E> maxBy(Function<E, C> propertyFun) {
-		return max(propertyFunToComparator(propertyFun));
+	public <C extends Comparable<? super C>> Optional<E> maxBy(Function<? super E, C> property) {
+		return max(Comparator.comparing(property));
 	}
 
 	public Optional<E> max(Comparator<? super E> comparator) {
 		return greatestByComparator(comparator);
 	}
 
-	public <C extends Comparable<? super C>> Optional<E> minBy(Function<E, C> propertyFun) {
-		return min(propertyFunToComparator(propertyFun));
+	public <C extends Comparable<? super C>> Optional<E> minBy(Function<? super E, C> property) {
+		return min(Comparator.comparing(property));
 	}
 
 	public Optional<E> min(Comparator<? super E> comparator) {
 		return greatestByComparator(comparator.reversed());
-	}
-
-	private <C extends Comparable<? super C>> Comparator<? super E> propertyFunToComparator(Function<E, C> propertyFun) {
-		return (a, b) -> {
-			final C aProperty = propertyFun.apply(a);
-			final C bProperty = propertyFun.apply(b);
-			return aProperty.compareTo(bProperty);
-		};
 	}
 
 	private Optional<E> greatestByComparator(Comparator<? super E> comparator) {
@@ -494,16 +488,16 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		}
 	}
 
+	public <S> LazyTupleSeq<E,S> zip(LazySeq<? extends S> second) {
+		return new LazyTupleSeq<E,S>(zip(second, (a,b) -> t(a,b)));
+	}
+
 	public LazyTupleSeq<E, Integer> zipWithIndex() {
 		return zipWithIndex(0);
 	}
 
 	public LazyTupleSeq<E, Integer> zipWithIndex(int startIndex) {
 		return zip(numbers(startIndex));
-	}
-
-	public <S> LazyTupleSeq<E,S> zip(LazySeq<? extends S> second) {
-		return new LazyTupleSeq<E,S>(zip(second, (a,b) -> new Tuple<>(a,b)));
 	}
 
 	public LazySeq<E> takeWhile(Predicate<? super E> predicate) {
@@ -585,13 +579,13 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	/**
-	 * Sorts this {@link LazySeq} regarding the given attribute.
+	 * Sorts this {@link LazySeq} regarding the given property.
 	 *
-	 * @param attribute function that maps the elements to the attribute the sequence shall be sorted on
+	 * @param property function that maps the elements to the property the sequence shall be sorted on
 	 * @return sorted {@link LazySeq}
 	 */
-	public LazySeq<E> sortedBy(Function<E, ? extends Comparable> attribute) {
-		return sorted(Comparator.comparing(attribute));
+	public LazySeq<E> sortedBy(Function<? super E, ? extends Comparable> property) {
+		return sorted(Comparator.comparing(property));
 	}
 
 	public boolean startsWith(Iterable<E> prefix) {
