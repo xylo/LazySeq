@@ -103,7 +103,7 @@ public class LazySeqDropTest extends AbstractBaseTestCase {
 	public void shouldNotEvaluateTailExceptFirstElement() throws Exception {
 		//given
 		final LazySeq<Integer> naturals = LazySeq.of(1, supplierMock);
-		given(supplierMock.get()).willReturn(cons(2, (Supplier<LazySeq<Integer>>) supplierMock::get));
+		given(supplierMock.get()).willReturn(cons(2, supplierMock::get));
 
 		//when
 		naturals.drop((long) 2);
