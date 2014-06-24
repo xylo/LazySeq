@@ -374,13 +374,25 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return dropUnsafe(startInclusive);
 	}
 
+	/** Procedural implementation of dropUnsafeFunctional (which causes StackOverflows). */
 	protected LazySeq<E> dropUnsafe(long startInclusive) {
+		LazySeq<E> seq = this;
+		for (; startInclusive > 0 && !seq.isEmpty(); startInclusive--) {
+			seq = seq.tail();
+		}
+		return seq;
+	}
+
+	/*
+	@Deprecated
+	protected LazySeq<E> dropUnsafeFunctional(long startInclusive) {
 		if (startInclusive > 0) {
 			return tail().drop(startInclusive - 1);
 		} else {
 			return this;
 		}
 	}
+	*/
 
 	@Override
 	public LazySeq<E> subList(int fromIndex, int toIndex) {
