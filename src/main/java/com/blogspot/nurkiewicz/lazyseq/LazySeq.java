@@ -468,7 +468,13 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 
 	@Override
 	public int size() {
-		return 1 + tail().size();
+		LazySeq<E> seq = this;
+		int size = 0;
+		while (!seq.isEmpty()) {
+			size++;
+			seq = seq.tail();
+		}
+		return size;
 	}
 
 	@Override
