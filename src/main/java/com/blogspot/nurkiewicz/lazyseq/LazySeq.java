@@ -462,6 +462,11 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
 	public int size() {
 		return 1 + tail().size();
 	}
