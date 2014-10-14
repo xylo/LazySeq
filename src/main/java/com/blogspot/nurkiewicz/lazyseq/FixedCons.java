@@ -40,15 +40,6 @@ class FixedCons<E> extends LazySeq<E> {
 	}
 
 	@Override
-	public LazySeq<E> filter(Predicate<? super E> predicate) {
-		if (predicate.test(head)) {
-			return cons(head, tail.filter(predicate));
-		} else {
-			return tail.filter(predicate);
-		}
-	}
-
-	@Override
 	public <R> LazySeq<R> flatMap(Function<? super E, ? extends Iterable<? extends R>> mapper) {
 		final ArrayList<R> result = new ArrayList<>();
 		mapper.apply(head).forEach(result::add);

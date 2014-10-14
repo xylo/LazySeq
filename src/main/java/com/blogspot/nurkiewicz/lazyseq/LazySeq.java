@@ -254,7 +254,19 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return s.append(end).toString();
 	}
 
-	public abstract LazySeq<E> filter(Predicate<? super E> predicate);
+	public LazySeq<E> filter(Predicate<? super E> predicate) {
+		LazySeq<E> curr = this;
+		while (!curr.isEmpty() && !predicate.test(curr.head())) {
+			curr = curr.tail();
+		}
+
+		if (!curr.isEmpty()) {
+			final LazySeq<E> finalCurr = curr;
+			return cons(curr.head(), () -> finalCurr.tail().filter(predicate));
+		} else {
+			return empty();
+		}
+	}
 
 	public Optional<E> find(Predicate<? super E> predicate) {
 		return filter(predicate).headOption();
