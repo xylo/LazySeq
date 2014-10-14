@@ -636,7 +636,10 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	public LazySeq<E> force() {
-		tail().force();
+		LazySeq<E> curr = this;
+		while (!curr.isEmpty()) {
+			curr = curr.tail();
+		}
 		return this;
 	}
 
