@@ -407,8 +407,11 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	public void forEach(Consumer<? super E> action) {
-		action.accept(head());
-		tail().forEach(action);
+		LazySeq<E> cur = this;
+		while (!cur.isEmpty()) {
+			action.accept(cur.head());
+			cur = cur.tail();
+		}
 	}
 
 	public Optional<E> reduce(BinaryOperator<E> accumulator) {
