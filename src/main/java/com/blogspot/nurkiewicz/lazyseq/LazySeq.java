@@ -165,6 +165,10 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return cons(start, () -> numbers(start + step, step));
 	}
 
+	public LazySeq<E> concat(LazySeq<E> seq) {
+		return concat(this, seq);
+	}
+
 	protected abstract boolean isTailDefined();
 
 	@Override
