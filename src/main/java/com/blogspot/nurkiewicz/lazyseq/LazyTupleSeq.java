@@ -183,4 +183,13 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return forall(tupled(predicate));
 	}
 
+	@Override
+	public <S, R> LazySeq<R> zip(LazySeq<? extends S> second, BiFunction<? super Tuple<K, V>, ? super S, ? extends R> zipper) {
+		if (this.isEmpty()) {
+			return empty();
+		} else {
+			return super.zip(second, zipper);
+		}
+	}
+
 }

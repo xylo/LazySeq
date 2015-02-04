@@ -16,17 +16,31 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 public class LazyTupleSeqZipTest extends AbstractBaseTestCase {
 
 	@Test
-	public void shouldReturnEmptySeqWhenZipNonEmptyWithEmpty() throws Exception {
+	public void shouldReturnEmptySeqWhenDoubleZippedWithEmptySeq() throws Exception {
 		//given
 		final LazySeq<Integer> empty = empty();
-		final LazySeq<Integer> nonEmpty = of(1);
+		final LazySeq<Integer> nonEmpty1 = of(1);
 		final LazySeq<Integer> nonEmpty2 = of(2);
 
 		//when
-		LazyTupleSeq<Tuple<Integer, Integer>, Integer> zipped = nonEmpty.zip(empty).zip(nonEmpty2);
+		LazyTupleSeq<Tuple<Integer, Integer>, Integer> zipped = nonEmpty1.zip(empty).zip(nonEmpty2);
 
 		//then
 		assertThat(zipped).isEmpty();
+	}
+
+	@Test
+	public void shouldReturnNonEmptySeqWhenZippingNonEmptySeqs() throws Exception {
+		//given
+		final LazySeq<Integer> nonEmpty1 = of(1);
+		final LazySeq<Integer> nonEmpty2 = of(2);
+		final LazySeq<Integer> nonEmpty3 = of(3);
+
+		//when
+		LazyTupleSeq<Tuple<Integer, Integer>, Integer> zipped = nonEmpty2.zip(nonEmpty1).zip(nonEmpty3);
+
+		//then
+		assertThat(zipped).isNotEmpty();
 	}
 
 }
