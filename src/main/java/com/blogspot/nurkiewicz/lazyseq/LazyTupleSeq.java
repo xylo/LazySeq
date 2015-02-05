@@ -43,6 +43,15 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	}
 
 	@Override
+	public Optional<Tuple<K, V>> headOption() {
+		if (empty) {
+			return Optional.empty();
+		} else {
+			return super.headOption();
+		}
+	}
+
+	@Override
 	public LazySeq<Tuple<K, V>> tail() {
 		return underlyingSeq.get().tail();
 	}

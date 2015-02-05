@@ -1,12 +1,10 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
-import org.mockito.Mock;
 import org.testng.annotations.Test;
 
-import static com.blogspot.nurkiewicz.lazyseq.LazySeq.*;
-import static com.blogspot.nurkiewicz.lazyseq.samples.Seqs.primes;
+import static com.blogspot.nurkiewicz.lazyseq.LazySeq.empty;
+import static com.blogspot.nurkiewicz.lazyseq.LazySeq.of;
 import static org.fest.assertions.api.Assertions.assertThat;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 
 /**
