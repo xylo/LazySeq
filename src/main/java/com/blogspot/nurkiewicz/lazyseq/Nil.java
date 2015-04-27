@@ -1,5 +1,7 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.util.function.*;
 
@@ -12,16 +14,19 @@ class Nil<E> extends LazySeq<E> {
 		return (Nil<E>) NIL;
 	}
 
+	@NotNull
 	@Override
 	public E head() {
 		throw new NoSuchElementException("head of empty stream");
 	}
 
+	@NotNull
 	@Override
 	public Optional<E> headOption() {
 		return Optional.empty();
 	}
 
+	@NotNull
 	@Override
 	public LazySeq<E> tail() {
 		throw new NoSuchElementException("tail of empty stream");
@@ -32,26 +37,31 @@ class Nil<E> extends LazySeq<E> {
 		return false;
 	}
 
+	@NotNull
 	@Override
 	public E get(int index) {
 		throw new IndexOutOfBoundsException(Integer.toString(index));
 	}
 
+	@NotNull
 	@Override
-	public <R> LazySeq<R> map(Function<? super E, ? extends R> mapper) {
+	public <R> LazySeq<R> map(@NotNull Function<? super E, ? extends R> mapper) {
 		return instance();
 	}
 
+	@NotNull
 	@Override
-	public LazySeq<E> filter(Predicate<? super E> predicate) {
+	public LazySeq<E> filter(@NotNull Predicate<? super E> predicate) {
 		return instance();
 	}
 
+	@NotNull
 	@Override
-	public <R> LazySeq<R> flatMap(Function<? super E, ? extends Iterable<? extends R>> mapper) {
+	public <R> LazySeq<R> flatMap(@NotNull Function<? super E, ? extends Iterable<? extends R>> mapper) {
 		return instance();
 	}
 
+	@NotNull
 	@Override
 	protected LazySeq<E> takeUnsafe(long maxSize) {
 		return instance();
@@ -63,17 +73,19 @@ class Nil<E> extends LazySeq<E> {
 	}
 
 	@Override
-	public void forEach(Consumer<? super E> action) {
+	public void forEach(@NotNull Consumer<? super E> action) {
 		//no op
 	}
 
+	@NotNull
 	@Override
-	public Optional<E> min(Comparator<? super E> comparator) {
+	public Optional<E> min(@NotNull Comparator<? super E> comparator) {
 		return Optional.empty();
 	}
 
+	@NotNull
 	@Override
-	public Optional<E> max(Comparator<? super E> comparator) {
+	public Optional<E> max(@NotNull Comparator<? super E> comparator) {
 		return Optional.empty();
 	}
 
@@ -83,45 +95,52 @@ class Nil<E> extends LazySeq<E> {
 	}
 
 	@Override
-	public boolean anyMatch(Predicate<? super E> predicate) {
+	public boolean anyMatch(@NotNull Predicate<? super E> predicate) {
 		return false;
 	}
 
 	@Override
-	public boolean allMatch(Predicate<? super E> predicate) {
+	public boolean allMatch(@NotNull Predicate<? super E> predicate) {
 		return true;
 	}
 
+	@NotNull
 	@Override
-	public <S, R> LazySeq<R> zip(LazySeq<? extends S> second, BiFunction<? super E, ? super S, ? extends R> zipper) {
+	public <S, R> LazySeq<R> zip(@NotNull LazySeq<? extends S> second, @NotNull BiFunction<? super E, ? super S, ? extends R> zipper) {
 		return instance();
 	}
 
+	@NotNull
 	@Override
-	public LazySeq<E> takeWhile(Predicate<? super E> predicate) {
+	public LazySeq<E> takeWhile(@NotNull Predicate<? super E> predicate) {
 		return instance();
 	}
 
+	@NotNull
 	@Override
-	public LazySeq<E> dropWhile(Predicate<? super E> predicate) {
+	public LazySeq<E> dropWhile(@NotNull Predicate<? super E> predicate) {
 		return instance();
 	}
 
+	@NotNull
 	@Override
 	public LazySeq<List<E>> slidingUnsafe(int size) {
 		return instance();
 	}
 
+	@NotNull
 	@Override
 	protected LazySeq<List<E>> groupedUnsafe(int size) {
 		return instance();
 	}
 
+	@NotNull
 	@Override
-	public LazySeq<E> scan(E initial, BinaryOperator<E> fun) {
+	public LazySeq<E> scan(@NotNull E initial, @NotNull BinaryOperator<E> fun) {
 		return of(initial);
 	}
 
+	@NotNull
 	@Override
 	public LazySeq<E> distinct() {
 		return instance();
@@ -132,6 +151,7 @@ class Nil<E> extends LazySeq<E> {
 		return !iterator.hasNext();
 	}
 
+	@NotNull
 	@Override
 	public LazySeq<E> force() {
 		return this;

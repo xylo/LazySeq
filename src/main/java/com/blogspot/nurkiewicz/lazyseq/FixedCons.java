@@ -1,5 +1,7 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.Function;
@@ -19,11 +21,13 @@ class FixedCons<E> extends LazySeq<E> {
 		this.tail = Objects.requireNonNull(tail);
 	}
 
+	@NotNull
 	@Override
 	public E head() {
 		return head;
 	}
 
+	@NotNull
 	@Override
 	public LazySeq<E> tail() {
 		return tail;
@@ -34,18 +38,21 @@ class FixedCons<E> extends LazySeq<E> {
 		return true;
 	}
 
+	@NotNull
 	@Override
-	public <R> LazySeq<R> map(Function<? super E, ? extends R> mapper) {
+	public <R> LazySeq<R> map(@NotNull Function<? super E, ? extends R> mapper) {
 		return cons(mapper.apply(head), tail.map(mapper));
 	}
 
+	@NotNull
 	@Override
-	public <R> LazySeq<R> flatMap(Function<? super E, ? extends Iterable<? extends R>> mapper) {
+	public <R> LazySeq<R> flatMap(@NotNull Function<? super E, ? extends Iterable<? extends R>> mapper) {
 		final ArrayList<R> result = new ArrayList<>();
 		mapper.apply(head).forEach(result::add);
 		return concat(result, tail.flatMap(mapper));
 	}
 
+	@NotNull
 	@Override
 	protected LazySeq<E> takeUnsafe(long maxSize) {
 		if (maxSize > 1) {

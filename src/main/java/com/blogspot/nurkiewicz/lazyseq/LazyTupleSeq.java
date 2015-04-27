@@ -1,10 +1,11 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.*;
-import java.util.stream.Collectors;
 
 import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.tupled;
 
@@ -37,11 +38,13 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		this.underlyingSize = () -> seq.size(); this.empty = seq.isEmpty();
 	}
 
+	@NotNull
 	@Override
 	public Tuple<K, V> head() {
 		return underlyingSeq.get().head();
 	}
 
+	@NotNull
 	@Override
 	public Optional<Tuple<K, V>> headOption() {
 		if (empty) {
@@ -51,6 +54,7 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		}
 	}
 
+	@NotNull
 	@Override
 	public LazySeq<Tuple<K, V>> tail() {
 		return underlyingSeq.get().tail();
@@ -61,47 +65,57 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return underlyingSeq.get().isTailDefined();
 	}
 
+	@NotNull
 	@Override
-	public <R> LazySeq<R> map(Function<? super Tuple<K, V>, ? extends R> mapper) {
+	public <R> LazySeq<R> map(@NotNull Function<? super Tuple<K, V>, ? extends R> mapper) {
 		return underlyingSeq.get().map(mapper);
 	}
 
+	@NotNull
 	public <R> LazySeq<R> map(BiFunction<K, V, R> mapper) {
 		return map(tupled(mapper));
 	}
 
+	@NotNull
 	@Override
-	public <R> LazySeq<R> flatMap(Function<? super Tuple<K, V>, ? extends Iterable<? extends R>> mapper) {
+	public <R> LazySeq<R> flatMap(@NotNull Function<? super Tuple<K, V>, ? extends Iterable<? extends R>> mapper) {
 		return underlyingSeq.get().flatMap(mapper);
 	}
 
+	@NotNull
 	public <R> LazySeq<R> flatMap(BiFunction<? super K, ? super V, ? extends Iterable<? extends R>> mapper) {
 		return flatMap(tupled(mapper));
 	}
 
+	@NotNull
 	@Override
-	public LazyTupleSeq<K, V> filter(Predicate<? super Tuple<K, V>> predicate) {
+	public LazyTupleSeq<K, V> filter(@NotNull Predicate<? super Tuple<K, V>> predicate) {
 		return new LazyTupleSeq<>(underlyingSeq.get().filter(predicate));
 	}
 
+	@NotNull
 	public LazyTupleSeq<K, V> filter(BiPredicate<? super K, ? super V> predicate) {
 		return filter(tupled(predicate));
 	}
 
+	@NotNull
 	@Override
-	public LazyTupleSeq<K,V> takeWhile(Predicate<? super Tuple<K, V>> predicate) {
+	public LazyTupleSeq<K,V> takeWhile(@NotNull Predicate<? super Tuple<K, V>> predicate) {
 		return new LazyTupleSeq<>(underlyingSeq.get().takeWhile(predicate));
 	}
 
+	@NotNull
 	public LazyTupleSeq<K,V> takeWhile(BiPredicate<? super K, ? super V> predicate) {
 		return takeWhile(tupled(predicate));
 	}
 
+	@NotNull
 	@Override
-	public LazyTupleSeq<K,V> dropWhile(Predicate<? super Tuple<K, V>> predicate) {
+	public LazyTupleSeq<K,V> dropWhile(@NotNull Predicate<? super Tuple<K, V>> predicate) {
 		return new LazyTupleSeq<>(underlyingSeq.get().dropWhile(predicate));
 	}
 
+	@NotNull
 	public LazyTupleSeq<K,V> dropWhile(BiPredicate<? super K, ? super V> predicate) {
 		return dropWhile(tupled(predicate));
 	}
@@ -116,34 +130,41 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return empty;
 	}
 
+	@NotNull
 	@Override
 	public LazyTupleSeq<K, V> sorted() {
 		return sorted((o1, o2) -> ((Comparable<Tuple<K, V>>) o1).compareTo(o2));
 	}
 
+	@NotNull
 	@Override
-	public LazyTupleSeq<K, V> sorted(Comparator<? super Tuple<K, V>> comparator) {
+	public LazyTupleSeq<K, V> sorted(@NotNull Comparator<? super Tuple<K, V>> comparator) {
 		return new LazyTupleSeq<>(super.sorted(comparator));
 	}
 
+	@NotNull
 	@Override
-	public LazyTupleSeq<K, V> sortedBy(Function<? super Tuple<K, V>, ? extends Comparable> attribute) {
+	public LazyTupleSeq<K, V> sortedBy(@NotNull Function<? super Tuple<K, V>, ? extends Comparable> attribute) {
 		return sorted(Comparator.comparing(attribute));
 	}
 
+	@NotNull
 	public LazyTupleSeq<K, V> sortedBy(BiFunction<? super K, ? super V, ? extends Comparable> attribute) {
 		return sortedBy(tupled(attribute));
 	}
 
+	@NotNull
 	@Override
 	protected LazySeq<Tuple<K, V>> takeUnsafe(long maxSize) {
 		return underlyingSeq.get().takeUnsafe(maxSize);
 	}
 
+	@NotNull
 	public <R> LazyTupleSeq<R,V> mapKeys(Function<? super K, ? extends R> keyMapper) {
 		return new LazyTupleSeq<R,V>(map(t -> new Tuple<>(keyMapper.apply(t._1), t._2)));
 	}
 
+	@NotNull
 	public <R> LazyTupleSeq<K,R> mapValues(Function<? super V, ? extends R> valueMapper) {
 		return new LazyTupleSeq<K,R>(map(t -> new Tuple<>(t._1, valueMapper.apply(t._2))));
 	}
@@ -152,22 +173,27 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		forEach(tupled(action));
 	}
 
+	@NotNull
 	public <C extends Comparable<? super C>> Optional<Tuple<K,V>> maxBy(BiFunction<? super K, ? super V, C> property) {
 		return maxBy(tupled(property));
 	}
 
+	@NotNull
 	public <C extends Comparable<? super C>> Optional<Tuple<K,V>> minBy(BiFunction<? super K, ? super V, C> property) {
 		return minBy(tupled(property));
 	}
 
+	@NotNull
 	public LazySeq<K> keys() {
 		return underlyingSeq.get().map(t -> t._1);
 	}
 
+	@NotNull
 	public LazySeq<V> values() {
 		return underlyingSeq.get().map(t -> t._2);
 	}
 
+	@NotNull
 	public Map<K, V> toMap() {
 		return underlyingMap.get();
 	}
@@ -192,8 +218,9 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return forall(tupled(predicate));
 	}
 
+	@NotNull
 	@Override
-	public <S, R> LazySeq<R> zip(LazySeq<? extends S> second, BiFunction<? super Tuple<K, V>, ? super S, ? extends R> zipper) {
+	public <S, R> LazySeq<R> zip(@NotNull LazySeq<? extends S> second, @NotNull BiFunction<? super Tuple<K, V>, ? super S, ? extends R> zipper) {
 		if (this.isEmpty()) {
 			return empty();
 		} else {
