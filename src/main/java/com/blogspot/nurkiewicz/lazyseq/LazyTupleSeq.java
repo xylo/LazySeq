@@ -161,12 +161,12 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 
 	@NotNull
 	public <R> LazyTupleSeq<R,V> mapKeys(Function<? super K, ? extends R> keyMapper) {
-		return new LazyTupleSeq<R,V>(map(t -> new Tuple<>(keyMapper.apply(t._1), t._2)));
+		return new LazyTupleSeq<>(map(t -> new Tuple<>(keyMapper.apply(t._1), t._2)));
 	}
 
 	@NotNull
 	public <R> LazyTupleSeq<K,R> mapValues(Function<? super V, ? extends R> valueMapper) {
-		return new LazyTupleSeq<K,R>(map(t -> new Tuple<>(t._1, valueMapper.apply(t._2))));
+		return new LazyTupleSeq<>(map(t -> new Tuple<>(t._1, valueMapper.apply(t._2))));
 	}
 
 	public void forEach(BiConsumer<? super K, ? super V> action) {
