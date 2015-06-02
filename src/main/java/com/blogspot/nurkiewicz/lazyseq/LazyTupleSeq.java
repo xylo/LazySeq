@@ -193,6 +193,16 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return underlyingSeq.get().map(t -> t._2);
 	}
 
+	/**
+	 * Returns a new lazy tuple seq with swapped tuples (_1 and _2 swapped).
+	 *
+	 * @return new lazy tuple seq with swapped tuples (_1 and _2 swapped)
+	 */
+	 @NotNull
+	public LazyTupleSeq<V, K> swap() {
+		return new LazyTupleSeq<>(map(t -> t.swap()));
+	}
+
 	@NotNull
 	public Map<K, V> toMap() {
 		return underlyingMap.get();

@@ -25,6 +25,14 @@ public class Tuple<T1,T2> {
 		this._2 = t2;
 	}
 
+	/**
+	 * Returns a new tuple with values _1 and _2 beeing swapped.
+	 * @return new tuple with values _1 and _2 beeing swapped
+	 */
+	public Tuple<T2,T1> swap() {
+		return new Tuple<>(_2, _1);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Tuple) {
