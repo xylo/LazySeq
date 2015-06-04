@@ -83,7 +83,7 @@ class LazySeqStream<E> implements Stream<E> {
 
 	@Override
 	public Optional<E> reduce(BinaryOperator<E> accumulator) {
-		return underlying.reduce(accumulator);
+		return underlying.reduce(accumulator).toOptional();
 	}
 
 	@Override
@@ -93,12 +93,12 @@ class LazySeqStream<E> implements Stream<E> {
 
 	@Override
 	public Optional<E> min(Comparator<? super E> comparator) {
-		return underlying.min(comparator);
+		return underlying.min(comparator).toOptional();
 	}
 
 	@Override
 	public Optional<E> max(Comparator<? super E> comparator) {
-		return underlying.max(comparator);
+		return underlying.max(comparator).toOptional();
 	}
 
 	@Override
@@ -123,12 +123,12 @@ class LazySeqStream<E> implements Stream<E> {
 
 	@Override
 	public Optional<E> findFirst() {
-		return underlying.headOption();
+		return underlying.headOption().toOptional();
 	}
 
 	@Override
 	public Optional<E> findAny() {
-		return underlying.headOption();
+		return underlying.headOption().toOptional();
 	}
 
 	@Override

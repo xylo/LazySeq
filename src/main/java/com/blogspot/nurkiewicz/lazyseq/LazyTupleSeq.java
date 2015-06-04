@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.*;
 
 import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.tupled;
@@ -46,9 +45,9 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 
 	@NotNull
 	@Override
-	public Optional<Tuple<K, V>> headOption() {
+	public Option<Tuple<K, V>> headOption() {
 		if (empty) {
-			return Optional.empty();
+			return Option.empty();
 		} else {
 			return super.headOption();
 		}
@@ -174,12 +173,12 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	}
 
 	@NotNull
-	public <C extends Comparable<? super C>> Optional<Tuple<K,V>> maxBy(BiFunction<? super K, ? super V, C> property) {
+	public <C extends Comparable<? super C>> Option<Tuple<K,V>> maxBy(BiFunction<? super K, ? super V, C> property) {
 		return maxBy(tupled(property));
 	}
 
 	@NotNull
-	public <C extends Comparable<? super C>> Optional<Tuple<K,V>> minBy(BiFunction<? super K, ? super V, C> property) {
+	public <C extends Comparable<? super C>> Option<Tuple<K,V>> minBy(BiFunction<? super K, ? super V, C> property) {
 		return minBy(tupled(property));
 	}
 

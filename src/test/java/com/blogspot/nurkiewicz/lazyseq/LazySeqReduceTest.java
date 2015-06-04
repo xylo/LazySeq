@@ -2,7 +2,6 @@ package com.blogspot.nurkiewicz.lazyseq;
 
 import org.testng.annotations.Test;
 
-import java.util.Optional;
 import java.util.function.BinaryOperator;
 
 import static com.blogspot.nurkiewicz.lazyseq.LazySeq.cons;
@@ -57,10 +56,10 @@ public class LazySeqReduceTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> empty = LazySeq.empty();
 
 		//when
-		final Optional<Integer> absent = empty.reduce(product());
+		final Option<Integer> absent = empty.reduce(product());
 
 		//then
-		assertThat(absent).isEqualTo(Optional.<Integer>empty());
+		assertThat(absent).isEqualTo(Option.<Integer>empty());
 	}
 
 	@Test
@@ -69,10 +68,10 @@ public class LazySeqReduceTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> fixed = of(1, 2, 4, 7);
 
 		//when
-		final Optional<Integer> result = fixed.reduce(product());
+		final Option<Integer> result = fixed.reduce(product());
 
 		//then
-		assertThat(result).isEqualTo(Optional.of(1 * 2 * 4 * 7));
+		assertThat(result).isEqualTo(Option.of(1 * 2 * 4 * 7));
 	}
 
 	@Test
@@ -81,10 +80,10 @@ public class LazySeqReduceTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> lazy = cons(1, () -> cons(2, () -> cons(4, () -> of(7))));
 
 		//when
-		final Optional<Integer> result = lazy.reduce(product());
+		final Option<Integer> result = lazy.reduce(product());
 
 		//then
-		assertThat(result).isEqualTo(Optional.of(1 * 2 * 4 * 7));
+		assertThat(result).isEqualTo(Option.of(1 * 2 * 4 * 7));
 	}
 
 	private BinaryOperator<Integer> sum() {

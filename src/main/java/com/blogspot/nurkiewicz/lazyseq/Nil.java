@@ -22,8 +22,8 @@ class Nil<E> extends LazySeq<E> {
 
 	@NotNull
 	@Override
-	public Optional<E> headOption() {
-		return Optional.empty();
+	public Option<E> headOption() {
+		return Option.empty();
 	}
 
 	@NotNull
@@ -79,14 +79,14 @@ class Nil<E> extends LazySeq<E> {
 
 	@NotNull
 	@Override
-	public Optional<E> min(@NotNull Comparator<? super E> comparator) {
-		return Optional.empty();
+	public Option<E> min(@NotNull Comparator<? super E> comparator) {
+		return Option.empty();
 	}
 
 	@NotNull
 	@Override
-	public Optional<E> max(@NotNull Comparator<? super E> comparator) {
-		return Optional.empty();
+	public Option<E> max(@NotNull Comparator<? super E> comparator) {
+		return Option.empty();
 	}
 
 	@Override

@@ -26,8 +26,8 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	public abstract E head();
 
 	@NotNull
-	public Optional<E> headOption() {
-		return Optional.of(head());
+	public Option<E> headOption() {
+		return Option.of(head());
 	}
 
 	@NotNull
@@ -317,7 +317,7 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	@NotNull
-	public Optional<E> find(@NotNull Predicate<? super E> predicate) {
+	public Option<E> find(@NotNull Predicate<? super E> predicate) {
 		return filter(predicate).headOption();
 	}
 
@@ -492,11 +492,11 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	@NotNull
-	public Optional<E> reduce(@NotNull BinaryOperator<E> accumulator) {
+	public Option<E> reduce(@NotNull BinaryOperator<E> accumulator) {
 		if (isEmpty() || tail().isEmpty()) {
-			return Optional.empty();
+			return Option.empty();
 		}
-		return Optional.of(tail().reduce(head(), accumulator));
+		return Option.of(tail().reduce(head(), accumulator));
 	}
 
 	@NotNull
@@ -511,29 +511,29 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	@NotNull
-	public <C extends Comparable<? super C>> Optional<E> maxBy(@NotNull Function<? super E, C> property) {
+	public <C extends Comparable<? super C>> Option<E> maxBy(@NotNull Function<? super E, C> property) {
 		return max(Comparator.comparing(property));
 	}
 
 	@NotNull
-	public Optional<E> max(@NotNull Comparator<? super E> comparator) {
+	public Option<E> max(@NotNull Comparator<? super E> comparator) {
 		return greatestByComparator(comparator);
 	}
 
 	@NotNull
-	public <C extends Comparable<? super C>> Optional<E> minBy(@NotNull Function<? super E, C> property) {
+	public <C extends Comparable<? super C>> Option<E> minBy(@NotNull Function<? super E, C> property) {
 		return min(Comparator.comparing(property));
 	}
 
 	@NotNull
-	public Optional<E> min(@NotNull Comparator<? super E> comparator) {
+	public Option<E> min(@NotNull Comparator<? super E> comparator) {
 		return greatestByComparator(comparator.reversed());
 	}
 
 	@NotNull
-	private Optional<E> greatestByComparator(@NotNull Comparator<? super E> comparator) {
+	private Option<E> greatestByComparator(@NotNull Comparator<? super E> comparator) {
 		if (tail().isEmpty()) {
-			return Optional.of(head());
+			return Option.of(head());
 		}
 		E minSoFar = head();
 		LazySeq<E> cur = this.tail();
@@ -541,7 +541,7 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 			minSoFar = maxByComparator(minSoFar, cur.head(), comparator);
 			cur = cur.tail();
 		}
-		return Optional.of(minSoFar);
+		return Option.of(minSoFar);
 	}
 
 	@NotNull

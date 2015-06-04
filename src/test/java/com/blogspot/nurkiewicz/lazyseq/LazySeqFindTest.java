@@ -4,7 +4,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import static com.blogspot.nurkiewicz.lazyseq.LazySeq.*;
@@ -23,7 +22,7 @@ public class LazySeqFindTest extends AbstractBaseTestCase {
 
 	@Test
 	public void shouldReturnEmptyResultWhenFindingSearchingInEmptySeq() throws Exception {
-		assertThat(empty().find(x -> false).isPresent()).isFalse();
+		assertThat(empty().find(x -> false).isDefined()).isFalse();
 	}
 
 	@Test
@@ -32,10 +31,10 @@ public class LazySeqFindTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> fixed = of(-1, -2, -3);
 
 		//when
-		final Optional<Integer> found = fixed.find(x -> x > 0);
+		final Option<Integer> found = fixed.find(x -> x > 0);
 
 		//then
-		assertThat(found.isPresent()).isFalse();
+		assertThat(found.isDefined()).isFalse();
 	}
 
 	@Test
@@ -44,10 +43,10 @@ public class LazySeqFindTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> fixed = LazySeq.<Integer>of(-1, -2, () -> of(-3, -4));
 
 		//when
-		final Optional<Integer> found = fixed.find(x -> x > 0);
+		final Option<Integer> found = fixed.find(x -> x > 0);
 
 		//then
-		assertThat(found.isPresent()).isFalse();
+		assertThat(found.isDefined()).isFalse();
 	}
 
 	@Test
@@ -81,10 +80,10 @@ public class LazySeqFindTest extends AbstractBaseTestCase {
 		final LazySeq<String> generated = LazySeq.<String>cons("a", () -> cons("bb", () -> cons("ccc", LazySeq::<String>empty)));
 
 		//when
-		final Optional<String> found = generated.find(s -> s.length() >= 3);
+		final Option<String> found = generated.find(s -> s.length() >= 3);
 
 		//then
-		assertThat(found).isEqualTo(Optional.of("ccc"));
+		assertThat(found).isEqualTo(Option.of("ccc"));
 	}
 
 }

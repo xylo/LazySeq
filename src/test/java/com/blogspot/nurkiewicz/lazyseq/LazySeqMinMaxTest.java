@@ -2,8 +2,6 @@ package com.blogspot.nurkiewicz.lazyseq;
 
 import org.testng.annotations.Test;
 
-import java.util.Optional;
-
 import static com.blogspot.nurkiewicz.lazyseq.LazySeq.*;
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -14,31 +12,31 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 
 	@Test
-	public void shouldReturnEmptyOptionalOnEmptySeq() throws Exception {
+	public void shouldReturnEmptyOptionOnEmptySeq() throws Exception {
 		//given
 		final LazySeq<Integer> empty = empty();
 
 		//when
-		final Optional<Integer> min = empty.min((a, b) -> a - b);
-		final Optional<Integer> max = empty.max((a, b) -> a - b);
+		final Option<Integer> min = empty.min((a, b) -> a - b);
+		final Option<Integer> max = empty.max((a, b) -> a - b);
 
 		//then
-		assertThat(min).isEqualTo(Optional.<Integer>empty());
-		assertThat(max).isEqualTo(Optional.<Integer>empty());
+		assertThat(min).isEqualTo(Option.<Integer>empty());
+		assertThat(max).isEqualTo(Option.<Integer>empty());
 	}
 
 	@Test
-	public void shouldReturnEmptyOptionalOnEmptySeqByProperty() throws Exception {
+	public void shouldReturnEmptyOptionOnEmptySeqByProperty() throws Exception {
 		//given
 		final LazySeq<Integer> empty = empty();
 
 		//when
-		final Optional<Integer> min = empty.minBy(Math::abs);
-		final Optional<Integer> max = empty.maxBy(Math::abs);
+		final Option<Integer> min = empty.minBy(Math::abs);
+		final Option<Integer> max = empty.maxBy(Math::abs);
 
 		//then
-		assertThat(min).isEqualTo(Optional.<Integer>empty());
-		assertThat(max).isEqualTo(Optional.<Integer>empty());
+		assertThat(min).isEqualTo(Option.<Integer>empty());
+		assertThat(max).isEqualTo(Option.<Integer>empty());
 	}
 
 	@Test
@@ -47,12 +45,12 @@ public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> single = of(1);
 
 		//when
-		final Optional<Integer> min = single.min((a, b) -> a - b);
-		final Optional<Integer> max = single.max((a, b) -> a - b);
+		final Option<Integer> min = single.min((a, b) -> a - b);
+		final Option<Integer> max = single.max((a, b) -> a - b);
 
 		//then
-		assertThat(min).isEqualTo(Optional.of(1));
-		assertThat(max).isEqualTo(Optional.of(1));
+		assertThat(min).isEqualTo(Option.of(1));
+		assertThat(max).isEqualTo(Option.of(1));
 	}
 
 	@Test
@@ -61,12 +59,12 @@ public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> single = of(1);
 
 		//when
-		final Optional<Integer> min = single.minBy(Math::abs);
-		final Optional<Integer> max = single.maxBy(Math::abs);
+		final Option<Integer> min = single.minBy(Math::abs);
+		final Option<Integer> max = single.maxBy(Math::abs);
 
 		//then
-		assertThat(min).isEqualTo(Optional.of(1));
-		assertThat(max).isEqualTo(Optional.of(1));
+		assertThat(min).isEqualTo(Option.of(1));
+		assertThat(max).isEqualTo(Option.of(1));
 	}
 
 	@Test
@@ -75,12 +73,12 @@ public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> fixed = of(3, -2, 8, 5, -4, 11, 2, 1);
 
 		//when
-		final Optional<Integer> min = fixed.min((a, b) -> a - b);
-		final Optional<Integer> max = fixed.max((a, b) -> a - b);
+		final Option<Integer> min = fixed.min((a, b) -> a - b);
+		final Option<Integer> max = fixed.max((a, b) -> a - b);
 
 		//then
-		assertThat(min).isEqualTo(Optional.of(-4));
-		assertThat(max).isEqualTo(Optional.of(11));
+		assertThat(min).isEqualTo(Option.of(-4));
+		assertThat(max).isEqualTo(Option.of(11));
 	}
 
 	@Test
@@ -89,12 +87,12 @@ public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> fixed = of(3, -2, 8, 5, -4, 11, 2, 1);
 
 		//when
-		final Optional<Integer> min = fixed.minBy(Math::abs);
-		final Optional<Integer> max = fixed.maxBy(Math::abs);
+		final Option<Integer> min = fixed.minBy(Math::abs);
+		final Option<Integer> max = fixed.maxBy(Math::abs);
 
 		//then
-		assertThat(min).isEqualTo(Optional.of(1));
-		assertThat(max).isEqualTo(Optional.of(11));
+		assertThat(min).isEqualTo(Option.of(1));
+		assertThat(max).isEqualTo(Option.of(11));
 	}
 
 	@Test
@@ -110,12 +108,12 @@ public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 																() -> of(1))))))));
 
 		//when
-		final Optional<Integer> min = lazy.min((a, b) -> a - b);
-		final Optional<Integer> max = lazy.max((a, b) -> a - b);
+		final Option<Integer> min = lazy.min((a, b) -> a - b);
+		final Option<Integer> max = lazy.max((a, b) -> a - b);
 
 		//then
-		assertThat(min).isEqualTo(Optional.of(-4));
-		assertThat(max).isEqualTo(Optional.of(11));
+		assertThat(min).isEqualTo(Option.of(-4));
+		assertThat(max).isEqualTo(Option.of(11));
 	}
 
 	@Test
@@ -131,12 +129,12 @@ public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 																() -> of(1))))))));
 
 		//when
-		final Optional<Integer> min = lazy.minBy(Math::abs);
-		final Optional<Integer> max = lazy.maxBy(Math::abs);
+		final Option<Integer> min = lazy.minBy(Math::abs);
+		final Option<Integer> max = lazy.maxBy(Math::abs);
 
 		//then
-		assertThat(min).isEqualTo(Optional.of(1));
-		assertThat(max).isEqualTo(Optional.of(11));
+		assertThat(min).isEqualTo(Option.of(1));
+		assertThat(max).isEqualTo(Option.of(11));
 	}
 
 	@Test
@@ -145,12 +143,12 @@ public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 		final LazySeq<String> single = of(loremIpsum());
 
 		//when
-		final Optional<String> min = single.min((a, b) -> a.length() - b.length());
-		final Optional<String> max = single.max((a, b) -> a.length() - b.length());
+		final Option<String> min = single.min((a, b) -> a.length() - b.length());
+		final Option<String> max = single.max((a, b) -> a.length() - b.length());
 
 		//then
-		assertThat(min).isEqualTo(Optional.of("id"));
-		assertThat(max).isEqualTo(Optional.of("consectetur"));
+		assertThat(min).isEqualTo(Option.of("id"));
+		assertThat(max).isEqualTo(Option.of("consectetur"));
 	}
 
 	@Test
@@ -159,12 +157,12 @@ public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 		final LazySeq<String> single = of(loremIpsum());
 
 		//when
-		final Optional<String> min = single.minBy(String::length);
-		final Optional<String> max = single.maxBy(String::length);
+		final Option<String> min = single.minBy(String::length);
+		final Option<String> max = single.maxBy(String::length);
 
 		//then
-		assertThat(min).isEqualTo(Optional.of("id"));
-		assertThat(max).isEqualTo(Optional.of("consectetur"));
+		assertThat(min).isEqualTo(Option.of("id"));
+		assertThat(max).isEqualTo(Option.of("consectetur"));
 	}
 
 	@Test
@@ -173,12 +171,12 @@ public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 		final LazySeq<String> single = of(loremIpsum());
 
 		//when
-		final Optional<String> min = single.min(String::compareTo);
-		final Optional<String> max = single.max(String::compareTo);
+		final Option<String> min = single.min(String::compareTo);
+		final Option<String> max = single.max(String::compareTo);
 
 		//then
-		assertThat(min).isEqualTo(Optional.of("adipiscing"));
-		assertThat(max).isEqualTo(Optional.of("sit"));
+		assertThat(min).isEqualTo(Option.of("adipiscing"));
+		assertThat(max).isEqualTo(Option.of("sit"));
 	}
 
 	@Test
@@ -187,12 +185,12 @@ public class LazySeqMinMaxTest extends AbstractBaseTestCase {
 		final LazySeq<String> single = of(loremIpsum());
 
 		//when
-		final Optional<String> min = single.minBy(s -> s.charAt(s.length() - 1));
-		final Optional<String> max = single.maxBy(s -> s.charAt(s.length() - 1));
+		final Option<String> min = single.minBy(s -> s.charAt(s.length() - 1));
+		final Option<String> max = single.maxBy(s -> s.charAt(s.length() - 1));
 
 		//then
-		assertThat(min).isEqualTo(Optional.of("ligula"));
-		assertThat(max).isEqualTo(Optional.of("sit"));
+		assertThat(min).isEqualTo(Option.of("ligula"));
+		assertThat(max).isEqualTo(Option.of("sit"));
 	}
 
 	private String[] loremIpsum() {
