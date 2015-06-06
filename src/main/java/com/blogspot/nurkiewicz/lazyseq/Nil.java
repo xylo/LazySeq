@@ -2,7 +2,10 @@ package com.blogspot.nurkiewicz.lazyseq;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.*;
 
 class Nil<E> extends LazySeq<E> {

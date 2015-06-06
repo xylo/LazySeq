@@ -1,7 +1,8 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
 import org.testng.annotations.Test;
-import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.*;
+
+import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.t;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
