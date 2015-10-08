@@ -572,11 +572,21 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	public boolean anyMatch(@NotNull Predicate<? super E> predicate) {
-		return predicate.test(head()) || tail().anyMatch(predicate);
+		for (E e : this) {
+			if (predicate.test(e)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean allMatch(@NotNull Predicate<? super E> predicate) {
-		return predicate.test(head()) && tail().allMatch(predicate);
+		for (E e : this) {
+			if (!predicate.test(e)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public boolean noneMatch(@NotNull Predicate<? super E> predicate) {
