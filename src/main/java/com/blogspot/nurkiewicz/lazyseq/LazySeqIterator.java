@@ -9,6 +9,7 @@ import java.util.function.Consumer;
  */
 public class LazySeqIterator<E> implements Iterator<E> {
 
+	private boolean getUnderlyingTail = false;
 	private LazySeq<E> underlying;
 
 	public LazySeqIterator(LazySeq<E> lazySeq) {
@@ -17,14 +18,22 @@ public class LazySeqIterator<E> implements Iterator<E> {
 
 	@Override
 	public boolean hasNext() {
-		return !underlying.isEmpty();
+		return !underlying().isEmpty();
 	}
 
 	@Override
 	public E next() {
-		final E next = underlying.head();
-		underlying = underlying.tail();
+		final E next = underlying().head();
+		getUnderlyingTail = true;
 		return next;
+	}
+
+	private LazySeq<E> underlying() {
+		if (getUnderlyingTail) {
+			underlying = underlying.tail();
+			getUnderlyingTail = false;
+		}
+		return underlying;
 	}
 
 	@Override
@@ -34,6 +43,6 @@ public class LazySeqIterator<E> implements Iterator<E> {
 
 	@Override
 	public void forEachRemaining(Consumer<? super E> action) {
-		underlying.forEach(action);
+		underlying().forEach(action);
 	}
 }
