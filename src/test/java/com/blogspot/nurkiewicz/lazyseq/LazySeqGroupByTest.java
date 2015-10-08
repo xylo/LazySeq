@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.blogspot.nurkiewicz.lazyseq.LazySeq.of;
 import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.*;

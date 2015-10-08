@@ -2,11 +2,11 @@ package com.blogspot.nurkiewicz.lazyseq;
 
 import org.testng.annotations.Test;
 
-import java.util.List;
 import java.util.Map;
 
 import static com.blogspot.nurkiewicz.lazyseq.LazySeq.of;
-import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.*;
+import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.jMap;
+import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.t;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 /**

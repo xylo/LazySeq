@@ -2,8 +2,6 @@ package com.blogspot.nurkiewicz.lazyseq;
 
 import org.testng.annotations.Test;
 
-import java.util.function.Supplier;
-
 import static com.blogspot.nurkiewicz.lazyseq.LazySeq.*;
 import static org.fest.assertions.api.Assertions.assertThat;
 
