@@ -154,15 +154,20 @@
 		</plugins>
 	</reporting>
 
-	<distributionManagement>
-	  <snapshotRepository>
-	    <id>debian7-01</id>
-	    <url>http://debian7-01/artifactory/ext-snapshot-local/</url>
-	  </snapshotRepository>
-	  <repository>
-	    <id>debian7-01</id>
-	    <url>http://debian7-01/artifactory/ext-release-local/</url>
-	  </repository>
-	</distributionManagement>
+	<profiles>
+		<profile>
+			<id>iat</id>
+			<distributionManagement>
+			  <snapshotRepository>
+			    <id>debian7-01</id>
+			    <url>http://debian7-01/artifactory/ext-snapshot-local/</url>
+			  </snapshotRepository>
+			  <repository>
+			    <id>debian7-01</id>
+			    <url>http://debian7-01/artifactory/ext-release-local/</url>
+			  </repository>
+			</distributionManagement>
+		</profile>
+	</profiles>
 
 </project>
