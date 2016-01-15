@@ -154,4 +154,11 @@
 		</plugins>
 	</reporting>
 
+	<distributionManagement>
+	  <snapshotRepository>
+	    <id>debian7-01</id>
+	    <url>http://debian7-01/artifactory/ext-snapshot-local/</url>
+	  </snapshotRepository>
+	</distributionManagement>
+
 </project>
