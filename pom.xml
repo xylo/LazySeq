@@ -156,7 +156,7 @@
 
 	<profiles>
 		<profile>
-			<id>iat</id>
+			<id>artifactory</id>
 			<distributionManagement>
 			  <snapshotRepository>
 			    <id>debian7-01</id>
