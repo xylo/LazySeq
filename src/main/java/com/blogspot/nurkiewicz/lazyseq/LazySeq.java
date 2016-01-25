@@ -589,7 +589,25 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return false;
 	}
 
+	public <Ex extends Exception> boolean anyMatchEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
+		for (E e : this) {
+			if (predicate.test(e)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean allMatch(@NotNull Predicate<? super E> predicate) {
+		for (E e : this) {
+			if (!predicate.test(e)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public <Ex extends Exception> boolean allMatchEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
 		for (E e : this) {
 			if (!predicate.test(e)) {
 				return false;
@@ -602,12 +620,24 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return allMatch(predicate.negate());
 	}
 
+	public <Ex extends Exception> boolean noneMatchEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
+		return allMatchEx(predicate.negate());
+	}
+
 	public boolean exists(@NotNull Predicate<? super E> predicate) {
 		return anyMatch(predicate);
 	}
 
+	public <Ex extends Exception> boolean existsEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
+		return anyMatchEx(predicate);
+	}
+
 	public boolean forall(@NotNull Predicate<? super E> predicate) {
 		return allMatch(predicate);
+	}
+
+	public <Ex extends Exception> boolean forallEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
+		return allMatchEx(predicate);
 	}
 
 	@NotNull

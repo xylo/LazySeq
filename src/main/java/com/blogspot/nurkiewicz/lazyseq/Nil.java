@@ -1,5 +1,7 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
+import com.blogspot.nurkiewicz.lazyseq.function.ExceptionConsumer;
+import com.blogspot.nurkiewicz.lazyseq.function.ExceptionPredicate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
@@ -80,6 +82,11 @@ class Nil<E> extends LazySeq<E> {
 		//no op
 	}
 
+	@Override
+	public <Ex extends Exception> void forEachEx(@NotNull ExceptionConsumer<? super E, Ex> action) throws Ex {
+		//no op
+	}
+
 	@NotNull
 	@Override
 	public Option<E> min(@NotNull Comparator<? super E> comparator) {
@@ -103,7 +110,17 @@ class Nil<E> extends LazySeq<E> {
 	}
 
 	@Override
+	public <Ex extends Exception> boolean anyMatchEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
+		return false;
+	}
+
+	@Override
 	public boolean allMatch(@NotNull Predicate<? super E> predicate) {
+		return true;
+	}
+
+	@Override
+	public <Ex extends Exception> boolean allMatchEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
 		return true;
 	}
 
