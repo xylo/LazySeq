@@ -8,6 +8,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.blogspot.nurkiewicz.lazyseq.function.*;
+
 import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.t;
 
 /**
@@ -483,6 +485,14 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	public void forEach(@NotNull Consumer<? super E> action) {
+		LazySeq<E> cur = this;
+		while (!cur.isEmpty()) {
+			action.accept(cur.head());
+			cur = cur.tail();
+		}
+	}
+
+	public <Ex extends Exception> void forEachEx(@NotNull ExceptionConsumer<? super E, Ex> action) throws Ex {
 		LazySeq<E> cur = this;
 		while (!cur.isEmpty()) {
 			action.accept(cur.head());
