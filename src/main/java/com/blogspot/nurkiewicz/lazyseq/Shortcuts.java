@@ -1,5 +1,7 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
+import com.blogspot.nurkiewicz.lazyseq.function.*;
+
 import java.util.*;
 import java.util.function.*;
 
@@ -8,6 +10,7 @@ import java.util.function.*;
  *
  * @author Stefan Endrullis (stefan@endrullis.de)
  */
+@SuppressWarnings("WeakerAccess")
 public class Shortcuts {
 
 	/**
@@ -27,11 +30,23 @@ public class Shortcuts {
 		return t -> function.apply(t._1, t._2);
 	}
 
+	public static <T1,T2,R,Ex extends Exception> ExceptionFunction<Tuple<T1,T2>,R,Ex> tupledEx(ExceptionBiFunction<? super T1, ? super T2, ? extends R,Ex> function) {
+		return t -> function.apply(t._1, t._2);
+	}
+
 	public static <T1,T2> Predicate<Tuple<T1,T2>> tupled(BiPredicate<? super T1, ? super T2> predicate) {
 		return t -> predicate.test(t._1, t._2);
 	}
 
+	public static <T1,T2,Ex extends Exception> ExceptionPredicate<Tuple<T1,T2>, Ex> tupledEx(ExceptionBiPredicate<? super T1, ? super T2, Ex> predicate) {
+		return t -> predicate.test(t._1, t._2);
+	}
+
 	public static <T1,T2> Consumer<Tuple<T1,T2>> tupled(BiConsumer<? super T1, ? super T2> consumer) {
+		return t -> consumer.accept(t._1, t._2);
+	}
+
+	public static <T1,T2,Ex extends Exception> ExceptionConsumer<Tuple<T1,T2>, Ex> tupledEx(ExceptionBiConsumer<? super T1, ? super T2, Ex> consumer) {
 		return t -> consumer.accept(t._1, t._2);
 	}
 

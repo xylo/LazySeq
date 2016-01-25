@@ -1,5 +1,7 @@
 package com.blogspot.nurkiewicz.lazyseq;
 
+import com.blogspot.nurkiewicz.lazyseq.function.ExceptionBiConsumer;
+import com.blogspot.nurkiewicz.lazyseq.function.ExceptionBiPredicate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
@@ -7,6 +9,7 @@ import java.util.Map;
 import java.util.function.*;
 
 import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.tupled;
+import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.tupledEx;
 
 /**
  * Quick hack for having a {@link LazySeq} with tuples that provides also some map related functions such as
@@ -18,6 +21,7 @@ import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.tupled;
  *
  * @author Stefan Endrullis (stefan@endrullis.de)
  */
+@SuppressWarnings("WeakerAccess")
 public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	protected final Supplier<Map<K, V>>            underlyingMap;
 	protected final Supplier<LazySeq<Tuple<K, V>>> underlyingSeq;
@@ -172,6 +176,10 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		forEach(tupled(action));
 	}
 
+	public <Ex extends Exception> void forEachEx(ExceptionBiConsumer<? super K, ? super V, Ex> action) throws Ex {
+		forEachEx(tupledEx(action));
+	}
+
 	@NotNull
 	public <C extends Comparable<? super C>> Option<Tuple<K,V>> maxBy(BiFunction<? super K, ? super V, C> property) {
 		return maxBy(tupled(property));
@@ -211,20 +219,40 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return anyMatch(tupled(predicate));
 	}
 
+	public <Ex extends Exception> boolean anyMatchEx(ExceptionBiPredicate<? super K, ? super V, Ex> predicate) throws Ex {
+		return anyMatchEx(tupledEx(predicate));
+	}
+
 	public boolean allMatch(BiPredicate<? super K, ? super V> predicate) {
 		return allMatch(tupled(predicate));
+	}
+
+	public <Ex extends Exception> boolean allMatchEx(ExceptionBiPredicate<? super K, ? super V, Ex> predicate) throws Ex {
+		return allMatchEx(tupledEx(predicate));
 	}
 
 	public boolean noneMatch(BiPredicate<? super K, ? super V> predicate) {
 		return noneMatch(tupled(predicate));
 	}
 
+	public <Ex extends Exception> boolean noneMatchEx(ExceptionBiPredicate<? super K, ? super V, Ex> predicate) throws Ex {
+		return noneMatchEx(tupledEx(predicate));
+	}
+
 	public boolean exists(BiPredicate<? super K, ? super V> predicate) {
 		return exists(tupled(predicate));
 	}
 
+	public <Ex extends Exception> boolean existsEx(ExceptionBiPredicate<? super K, ? super V, Ex> predicate) throws Ex {
+		return existsEx(tupledEx(predicate));
+	}
+
 	public boolean forall(BiPredicate<? super K, ? super V> predicate) {
 		return forall(tupled(predicate));
+	}
+
+	public <Ex extends Exception> boolean forallEx(ExceptionBiPredicate<? super K, ? super V, Ex> predicate) throws Ex {
+		return forallEx(tupledEx(predicate));
 	}
 
 	@NotNull
