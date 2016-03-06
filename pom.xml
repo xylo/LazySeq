@@ -144,4 +144,30 @@
 		</plugins>
 	</build>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<profiles>
+		<profile>
+			<id>artifactory</id>
+			<distributionManagement>
+			  <snapshotRepository>
+			    <id>debian7-01</id>
+			    <url>http://debian7-01/artifactory/ext-snapshot-local/</url>
+			  </snapshotRepository>
+			  <repository>
+			    <id>debian7-01</id>
+			    <url>http://debian7-01/artifactory/ext-release-local/</url>
+			  </repository>
+			</distributionManagement>
+		</profile>
+	</profiles>
+
 </project>

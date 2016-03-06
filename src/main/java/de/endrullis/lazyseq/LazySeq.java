@@ -1,4 +1,4 @@
-package de.endrullis.lazyseq;
+package com.blogspot.nurkiewicz.lazyseq;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -7,6 +7,8 @@ import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import de.endrullis.lazyseq.function.*;
 
 import static de.endrullis.lazyseq.Shortcuts.t;
 
@@ -490,6 +492,14 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		}
 	}
 
+	public <Ex extends Exception> void forEachEx(@NotNull ExceptionConsumer<? super E, Ex> action) throws Ex {
+		LazySeq<E> cur = this;
+		while (!cur.isEmpty()) {
+			action.accept(cur.head());
+			cur = cur.tail();
+		}
+	}
+
 	@NotNull
 	public Option<E> reduce(@NotNull BinaryOperator<E> accumulator) {
 		if (isEmpty() || tail().isEmpty()) {
@@ -571,23 +581,63 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	public boolean anyMatch(@NotNull Predicate<? super E> predicate) {
-		return predicate.test(head()) || tail().anyMatch(predicate);
+		for (E e : this) {
+			if (predicate.test(e)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public <Ex extends Exception> boolean anyMatchEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
+		for (E e : this) {
+			if (predicate.test(e)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean allMatch(@NotNull Predicate<? super E> predicate) {
-		return predicate.test(head()) && tail().allMatch(predicate);
+		for (E e : this) {
+			if (!predicate.test(e)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public <Ex extends Exception> boolean allMatchEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
+		for (E e : this) {
+			if (!predicate.test(e)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public boolean noneMatch(@NotNull Predicate<? super E> predicate) {
 		return allMatch(predicate.negate());
 	}
 
+	public <Ex extends Exception> boolean noneMatchEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
+		return allMatchEx(predicate.negate());
+	}
+
 	public boolean exists(@NotNull Predicate<? super E> predicate) {
 		return anyMatch(predicate);
 	}
 
+	public <Ex extends Exception> boolean existsEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
+		return anyMatchEx(predicate);
+	}
+
 	public boolean forall(@NotNull Predicate<? super E> predicate) {
 		return allMatch(predicate);
+	}
+
+	public <Ex extends Exception> boolean forallEx(@NotNull ExceptionPredicate<? super E, Ex> predicate) throws Ex {
+		return allMatchEx(predicate);
 	}
 
 	@NotNull
