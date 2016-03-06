@@ -27,6 +27,9 @@ More precisely it adds the following methods to the LazySeq class:
 * `zipWithIndex()`
 * `zipWithIndex(int startIndex)`
 
+Since functions like forEach, map, filter, and so on are not capable of forwarding exceptions to the next higher scope,
+special versions of those methods were added marked with an `Ex` suffix (e.g. `forEachEx`).
+
 Moreover, the project provides some new data structures:
 
 * `Tuple`
