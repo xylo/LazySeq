@@ -5,6 +5,12 @@
 	<groupId>de.endrullis.lazyseq</groupId>
 	<artifactId>lazyseq</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.scm.id>github</project.scm.id>
+	</properties>
+
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
@@ -12,16 +18,22 @@
 		</license>
 	</licenses>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
 	<scm>
 		<connection>scm:git:git@github.com:xylo/LazySeq.git</connection>
-		<url>scm:git:git@github.com:xylo/LazySeq.git</url>
 		<developerConnection>scm:git:git@github.com:xylo/LazySeq.git</developerConnection>
-	  <tag>HEAD</tag>
+		<url>https://github.com/xylo/LazySeq</url>
+		<tag>HEAD</tag>
   </scm>
+
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/xylo/LazySeq</url>
+	</ciManagement>
+
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/xylo/LazySeq/issues</url>
+	</issueManagement>
 
 	<dependencies>
 		<!-- Intellij IDEA annotations. -->
@@ -155,6 +167,20 @@
 	</reporting>
 
 	<profiles>
+		<profile>
+			<id>oss-sonatype</id>
+			<distributionManagement>
+				<snapshotRepository>
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+				</snapshotRepository>
+				<repository>
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+
 		<profile>
 			<id>artifactory</id>
 			<distributionManagement>
