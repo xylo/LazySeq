@@ -1,4 +1,4 @@
-package com.blogspot.nurkiewicz.lazyseq;
+package de.endrullis.lazyseq;
 
 import org.jetbrains.annotations.NotNull;
 

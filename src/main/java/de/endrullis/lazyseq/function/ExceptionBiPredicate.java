@@ -1,16 +1,17 @@
-package com.blogspot.nurkiewicz.lazyseq.function;
+package de.endrullis.lazyseq.function;
 
 import java.util.Objects;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 /**
- * Function A -&gt; boolean that may throw an exception.
+ * Function (A, B) -&gt; boolean that may throw an exception.
  *
  * @author Stefan Endrullis
  */
 @FunctionalInterface
 @SuppressWarnings("unused")
-public interface ExceptionPredicate<A, E extends Exception> {
+public interface ExceptionBiPredicate<A, B, E extends Exception> {
 
 	/**
 	 * Evaluates this predicate on the given argument.
@@ -19,7 +20,7 @@ public interface ExceptionPredicate<A, E extends Exception> {
 	 * @return {@code true} if the input argument matches the predicate,
 	 * otherwise {@code false}
 	 */
-	boolean test(A a) throws E;
+	boolean test(A a, B b) throws E;
 
 	/**
 	 * Returns a composed predicate that represents a short-circuiting logical
@@ -35,7 +36,7 @@ public interface ExceptionPredicate<A, E extends Exception> {
 	 * AND of this predicate and the {@code other} predicate
 	 * @throws NullPointerException if other is null
 	 */
-	default ExceptionPredicate<A, E> and() {return and();}
+	default ExceptionBiPredicate<A, B, E> and() {return and();}
 
 	/**
 	 * Returns a composed predicate that represents a short-circuiting logical
@@ -53,14 +54,14 @@ public interface ExceptionPredicate<A, E extends Exception> {
 	 * AND of this predicate and the {@code other} predicate
 	 * @throws NullPointerException if other is null
 	 */
-	default ExceptionPredicate<A, E> and(Predicate<? super A> other) {
+	default ExceptionBiPredicate<A, B, E> and(BiPredicate<? super A, ? super B> other) {
 		Objects.requireNonNull(other);
-		return (t) -> test(t) && other.test(t);
+		return (a, b) -> test(a, b) && other.test(a, b);
 	}
 
-	default ExceptionPredicate<A, Exception> and(ExceptionPredicate<? super A, ?> other) {
+	default ExceptionBiPredicate<A, B, Exception> and(ExceptionBiPredicate<? super A, ? super B, ?> other) {
 		Objects.requireNonNull(other);
-		return (t) -> test(t) && other.test(t);
+		return (a, b) -> test(a, b) && other.test(a, b);
 	}
 
 	/**
@@ -70,8 +71,8 @@ public interface ExceptionPredicate<A, E extends Exception> {
 	 * @return a predicate that represents the logical negation of this
 	 * predicate
 	 */
-	default ExceptionPredicate<A, E> negate() {
-		return (t) -> !test(t);
+	default ExceptionBiPredicate<A, B, E> negate() {
+		return (a, b) -> !test(a, b);
 	}
 
 	/**
@@ -90,14 +91,14 @@ public interface ExceptionPredicate<A, E extends Exception> {
 	 * OR of this predicate and the {@code other} predicate
 	 * @throws NullPointerException if other is null
 	 */
-	default ExceptionPredicate<A, E> or(Predicate<? super A> other) {
+	default ExceptionBiPredicate<A, B, E> or(BiPredicate<? super A, ? super B> other) {
 		Objects.requireNonNull(other);
-		return (t) -> test(t) || other.test(t);
+		return (a, b) -> test(a, b) || other.test(a, b);
 	}
 
-	default ExceptionPredicate<A, Exception> or(ExceptionPredicate<? super A, ?> other) {
+	default ExceptionBiPredicate<A, B, Exception> or(ExceptionBiPredicate<? super A, ? super B, ?> other) {
 		Objects.requireNonNull(other);
-		return (t) -> test(t) || other.test(t);
+		return (a, b) -> test(a, b) || other.test(a, b);
 	}
 
 	/**

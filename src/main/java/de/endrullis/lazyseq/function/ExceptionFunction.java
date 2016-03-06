@@ -1,4 +1,4 @@
-package com.blogspot.nurkiewicz.lazyseq.function;
+package de.endrullis.lazyseq.function;
 
 /**
  * Function A -&gt; R that may throw an exception.

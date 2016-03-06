@@ -516,8 +516,8 @@ But remember that Java collections are finite from definition so avoid convertin
 `head()` of every sequence (except empty) is always computed eagerly, thus accessing it is fast `O(1)`. Computing `tail()` may take everything from `O(1)` (if it was already computed) to infinite time. As an example take this valid stream:
 
 ```java
-import static com.blogspot.nurkiewicz.lazyseq.LazySeq.cons;
-import static com.blogspot.nurkiewicz.lazyseq.LazySeq.continually;
+import static de.endrullis.lazyseq.LazySeq.cons;
+import static de.endrullis.lazyseq.LazySeq.continually;
 
 LazySeq<Integer> oneAndZeros = cons(
 	1,
@@ -556,17 +556,17 @@ When working with `LazySeq` you sometimes get `StackOverflowError` or `OutOfMemo
 	java.lang.StackOverflowError
 		at sun.misc.Unsafe.allocateInstance(Native Method)
 		at java.lang.invoke.DirectMethodHandle.allocateInstance(DirectMethodHandle.java:426)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.iterate(LazySeq.java:118)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.lambda$0(LazySeq.java:118)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq$$Lambda$2.get(Unknown Source)
-		at com.blogspot.nurkiewicz.lazyseq.Cons.tail(Cons.java:32)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.iterate(LazySeq.java:118)
+		at de.endrullis.lazyseq.LazySeq.lambda$0(LazySeq.java:118)
+		at de.endrullis.lazyseq.LazySeq$$Lambda$2.get(Unknown Source)
+		at de.endrullis.lazyseq.Cons.tail(Cons.java:32)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
 
 When working with possibly infinite data structures, care must be taken. Avoid calling operations that *must* (`size()`, `allMatch()`, `minBy()`, `forEach()`, `reduce()`, ...) or *can* (`filter()`, `distinct()`, ...) traverse the whole sequence in order to give correct results. See *Pitfalls* for more examples and ways to avoid.
 

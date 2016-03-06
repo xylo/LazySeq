@@ -1,6 +1,6 @@
 package de.endrullis.lazyseq;
 
-import com.blogspot.nurkiewicz.lazyseq.function.*;
+import de.endrullis.lazyseq.function.*;
 
 import java.util.*;
 import java.util.function.*;

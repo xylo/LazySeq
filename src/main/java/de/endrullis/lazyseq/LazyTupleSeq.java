@@ -1,15 +1,15 @@
-package com.blogspot.nurkiewicz.lazyseq;
+package de.endrullis.lazyseq;
 
-import com.blogspot.nurkiewicz.lazyseq.function.ExceptionBiConsumer;
-import com.blogspot.nurkiewicz.lazyseq.function.ExceptionBiPredicate;
+import de.endrullis.lazyseq.function.ExceptionBiConsumer;
+import de.endrullis.lazyseq.function.ExceptionBiPredicate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.Map;
 import java.util.function.*;
 
-import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.tupled;
-import static com.blogspot.nurkiewicz.lazyseq.Shortcuts.tupledEx;
+import static de.endrullis.lazyseq.Shortcuts.tupled;
+import static de.endrullis.lazyseq.Shortcuts.tupledEx;
 
 /**
  * Quick hack for having a {@link LazySeq} with tuples that provides also some map related functions such as

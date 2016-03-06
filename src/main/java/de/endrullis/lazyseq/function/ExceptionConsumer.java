@@ -1,4 +1,4 @@
-package com.blogspot.nurkiewicz.lazyseq.function;
+package de.endrullis.lazyseq.function;
 
 import java.util.Objects;
 

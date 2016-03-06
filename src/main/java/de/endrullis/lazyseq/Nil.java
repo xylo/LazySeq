@@ -1,7 +1,7 @@
 package de.endrullis.lazyseq;
 
-import com.blogspot.nurkiewicz.lazyseq.function.ExceptionConsumer;
-import com.blogspot.nurkiewicz.lazyseq.function.ExceptionPredicate;
+import de.endrullis.lazyseq.function.ExceptionConsumer;
+import de.endrullis.lazyseq.function.ExceptionPredicate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
