@@ -575,17 +575,17 @@ When working with possibly infinite data structures, care must be taken. Avoid c
 
 ## Maturity
 
-[![Build Status](https://travis-ci.org/nurkiewicz/LazySeq.svg?branch=master)](https://travis-ci.org/nurkiewicz/LazySeq)
+[![Build Status](https://travis-ci.org/xylo/LazySeq.svg?branch=master)](https://travis-ci.org/xylo/LazySeq)
 
 ### Quality
 
-This project was started as an exercise and is not battle-proven. But a healthy [300+ unit-test suite](https://github.com/nurkiewicz/LazySeq/tree/master/src/test/java/com/blogspot/nurkiewicz/lazyseq) (3:1 test code/production code ratio) guards quality and functional correctness. I also make sure `LazySeq` is as lazy as possible by mocking tail functions and verifying they are called as rarely as one can get.
+This project started as an exercise but got improved further and further while using it in industry projects. Several bugs have been eliminated in the meanwhile. However, the code might still contain bugs, but a healthy [300+ unit-test suite](https://github.com/xylo/LazySeq/tree/master/src/test/java/de/endrullis/lazyseq) (3:1 test code/production code ratio) guards quality and functional correctness. I also make sure `LazySeq` is as lazy as possible by mocking tail functions and verifying they are called as rarely as one can get.
 
 Project was tested on [Java 8 build 113](https://jdk8.java.net/download.html) with lambda support.
 
 ### Contributions and bug reports
 
-In the event of finding a bug or missing feature, don't hesitate to open a [new ticket](https://github.com/nurkiewicz/LazySeq/issues) or start [pull request](https://github.com/nurkiewicz/LazySeq/pulls). I would also love to see more interesting usages of `LazySeq` in wild.
+In the event of finding a bug or missing feature, don't hesitate to open a [new ticket](https://github.com/xylo/LazySeq/issues) or start [pull request](https://github.com/xylo/LazySeq/pulls). I would also love to see more interesting usages of `LazySeq` in wild.
 
 ## License
 This project is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
