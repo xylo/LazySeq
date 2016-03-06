@@ -1,4 +1,4 @@
-# Lazy sequences implementation for Java 8 [![Build Status](https://travis-ci.org/nurkiewicz/LazySeq.svg?branch=master)](https://travis-ci.org/nurkiewicz/LazySeq)
+# Lazy sequences implementation for Java 8 [![Build Status](https://travis-ci.org/xylo/LazySeq.svg?branch=master)](https://travis-ci.org/xylo/LazySeq)
 
 ## About this fork
 
