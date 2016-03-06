@@ -1,5 +1,70 @@
 # Lazy sequences implementation for Java 8 [![Build Status](https://travis-ci.org/nurkiewicz/LazySeq.svg?branch=master)](https://travis-ci.org/nurkiewicz/LazySeq)
 
+## About this fork
+
+This project is a fork of the [https://github.com/nurkiewicz/LazySeq/](LazySeq project created by Tomasz Nurkiewicz)
+with more `LazySeq` functions and a special support for sequences of tuples (`LazyTupleSeq`).
+It has also a more complete JavaDoc documentation and it fixes several `StackOverflowException`s the original project suffered from
+when you work with larger datasets.
+
+More precisely it adds the following methods to the LazySeq class:
+
+* `concat(LazySeq<E> seq)`               
+* `find(Predicate<? super E> predicate)`
+* `groupBy(Function<E,K> key)`
+* `groupBy(Function<E,K> key, Function<E,V> value)`
+* `groupBy(Function<E,K> key, Function<E,V> value, Collector<V,?,R> valueCollector)`
+* `groupBy(Function<E,K> key, Collector<E,?,V> valuesCollector)`
+* `minBy(Function<? super E, C> property)`
+* `maxBy(Function<? super E, C> property)`
+* `mkString(String sep)`
+* `mkString(String start, String sep, String end)`
+* `toMap(Function<E,K> key, Function<E,V> value)`
+* `exists(Predicate<? super E> predicate)`
+* `forall(Predicate<? super E> predicate)`
+* `sortedBy(Function<? super E, ? extends Comparable> property)` 
+* `zip(LazySeq<? extends S> second)`
+* `zipWithIndex()`
+* `zipWithIndex(int startIndex)`
+
+Moreover, the project provides some new data structures:
+
+* `Tuple`
+* `LazyTupleSeq`
+* `Option`
+
+Tuple is just a pair of two values that can be addressed via `_1` and `_2` like in Scala.
+
+`LazyTupleSeq` is a `LazySeq` of `Tuple`s and is returned by `groupBy*` and `zip*` functions.
+It and provides the following additional functions over `LazySeq`:
+
+* `keys()`
+* `values()`
+* `mapKeys(Function<? super K, ? extends R> keyMapper)`
+* `mapValues(Function<? super V, ? extends R> valueMapper)`
+* `toMap()`
+
+as well as special `BiFunction` versions of the known functions
+
+* `map(BiFunction<K, V, R> mapper)`
+* `flatMap(BiFunction<? super K, ? super V, ? extends Iterable<? extends R>> mapper)`
+* `filter(BiPredicate<? super K, ? super V> predicate)`
+* `takeWhile(BiPredicate<? super K, ? super V> predicate)`
+* `dropWhile(BiPredicate<? super K, ? super V> predicate)`
+* `sortedBy(BiFunction<? super K, ? super V, ? extends Comparable> attribute)`
+* `forEach(BiConsumer<? super K, ? super V> action)`
+* `minBy(BiFunction<? super K, ? super V, C> property)`
+* `maxBy(BiFunction<? super K, ? super V, C> property)`
+* `anyMatch(BiPredicate<? super K, ? super V> predicate)`
+* `allMatch(BiPredicate<? super K, ? super V> predicate)`
+* `noneMatch(BiPredicate<? super K, ? super V> predicate)`
+* `exists(BiPredicate<? super K, ? super V> predicate)`
+* `forall(BiPredicate<? super K, ? super V> predicate)`
+* `zip(LazySeq<? extends S> second, BiFunction<? super Tuple<K, V>, ? super S, ? extends R> zipper)`
+
+Additionally this fork adds an implementation for the non-implemented close() method in `LazySeqStream`.
+The method calls the listeners previously registered via `onClose(Runnable listener)`.
+
 ## Introduction
 
 *Lazy sequence* is a data structure that is being computed only when its elements are actually needed. All operations on lazy sequences, like `map()` and `filter()` are lazy as well, postponing invocation up to the moment when it is really necessary. Lazy sequence is always traversed from the beginning using very cheap *first*/*rest* decomposition (`head()` and `tail()`). An important property of lazy sequences is that they can represent infinite streams of data, e.g. all natural numbers or temperature measurements over time.
