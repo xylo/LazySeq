@@ -1,4 +1,72 @@
-# Lazy sequences implementation for Java 8 [![Build Status](https://travis-ci.org/nurkiewicz/LazySeq.svg?branch=master)](https://travis-ci.org/nurkiewicz/LazySeq)
+# Lazy sequences implementation for Java 8 [![Build Status](https://travis-ci.org/xylo/LazySeq.svg?branch=master)](https://travis-ci.org/xylo/LazySeq)
+
+## About this fork
+
+This project is a fork of the [https://github.com/nurkiewicz/LazySeq/](LazySeq project created by Tomasz Nurkiewicz)
+with more `LazySeq` functions and a special support for sequences of tuples (`LazyTupleSeq`).
+It has also a more complete JavaDoc documentation and it fixes several `StackOverflowException`s the original project suffered from
+when you work with larger datasets.
+
+More precisely it adds the following methods to the LazySeq class:
+
+* `concat(LazySeq<E> seq)`               
+* `find(Predicate<? super E> predicate)`
+* `groupBy(Function<E,K> key)`
+* `groupBy(Function<E,K> key, Function<E,V> value)`
+* `groupBy(Function<E,K> key, Function<E,V> value, Collector<V,?,R> valueCollector)`
+* `groupBy(Function<E,K> key, Collector<E,?,V> valuesCollector)`
+* `minBy(Function<? super E, C> property)`
+* `maxBy(Function<? super E, C> property)`
+* `mkString(String sep)`
+* `mkString(String start, String sep, String end)`
+* `toMap(Function<E,K> key, Function<E,V> value)`
+* `exists(Predicate<? super E> predicate)`
+* `forall(Predicate<? super E> predicate)`
+* `sortedBy(Function<? super E, ? extends Comparable> property)` 
+* `zip(LazySeq<? extends S> second)`
+* `zipWithIndex()`
+* `zipWithIndex(int startIndex)`
+
+Since functions like forEach, map, filter, and so on are not capable of forwarding exceptions to the next higher scope,
+special versions of those methods were added marked with an `Ex` suffix (e.g. `forEachEx`).
+
+Moreover, the project provides some new data structures:
+
+* `Tuple`
+* `LazyTupleSeq`
+* `Option`
+
+Tuple is just a pair of two values that can be addressed via `_1` and `_2` like in Scala.
+
+`LazyTupleSeq` is a `LazySeq` of `Tuple`s and is returned by `groupBy*` and `zip*` functions.
+It and provides the following additional functions over `LazySeq`:
+
+* `keys()`
+* `values()`
+* `mapKeys(Function<? super K, ? extends R> keyMapper)`
+* `mapValues(Function<? super V, ? extends R> valueMapper)`
+* `toMap()`
+
+as well as special `BiFunction` versions of the known functions
+
+* `map(BiFunction<K, V, R> mapper)`
+* `flatMap(BiFunction<? super K, ? super V, ? extends Iterable<? extends R>> mapper)`
+* `filter(BiPredicate<? super K, ? super V> predicate)`
+* `takeWhile(BiPredicate<? super K, ? super V> predicate)`
+* `dropWhile(BiPredicate<? super K, ? super V> predicate)`
+* `sortedBy(BiFunction<? super K, ? super V, ? extends Comparable> attribute)`
+* `forEach(BiConsumer<? super K, ? super V> action)`
+* `minBy(BiFunction<? super K, ? super V, C> property)`
+* `maxBy(BiFunction<? super K, ? super V, C> property)`
+* `anyMatch(BiPredicate<? super K, ? super V> predicate)`
+* `allMatch(BiPredicate<? super K, ? super V> predicate)`
+* `noneMatch(BiPredicate<? super K, ? super V> predicate)`
+* `exists(BiPredicate<? super K, ? super V> predicate)`
+* `forall(BiPredicate<? super K, ? super V> predicate)`
+* `zip(LazySeq<? extends S> second, BiFunction<? super Tuple<K, V>, ? super S, ? extends R> zipper)`
+
+Additionally this fork adds an implementation for the non-implemented close() method in `LazySeqStream`.
+The method calls the listeners previously registered via `onClose(Runnable listener)`.
 
 ## Introduction
 
@@ -451,8 +519,8 @@ But remember that Java collections are finite from definition so avoid convertin
 `head()` of every sequence (except empty) is always computed eagerly, thus accessing it is fast `O(1)`. Computing `tail()` may take everything from `O(1)` (if it was already computed) to infinite time. As an example take this valid stream:
 
 ```java
-import static com.blogspot.nurkiewicz.lazyseq.LazySeq.cons;
-import static com.blogspot.nurkiewicz.lazyseq.LazySeq.continually;
+import static de.endrullis.lazyseq.LazySeq.cons;
+import static de.endrullis.lazyseq.LazySeq.continually;
 
 LazySeq<Integer> oneAndZeros = cons(
 	1,
@@ -491,33 +559,33 @@ When working with `LazySeq` you sometimes get `StackOverflowError` or `OutOfMemo
 	java.lang.StackOverflowError
 		at sun.misc.Unsafe.allocateInstance(Native Method)
 		at java.lang.invoke.DirectMethodHandle.allocateInstance(DirectMethodHandle.java:426)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.iterate(LazySeq.java:118)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.lambda$0(LazySeq.java:118)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq$$Lambda$2.get(Unknown Source)
-		at com.blogspot.nurkiewicz.lazyseq.Cons.tail(Cons.java:32)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
-		at com.blogspot.nurkiewicz.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.iterate(LazySeq.java:118)
+		at de.endrullis.lazyseq.LazySeq.lambda$0(LazySeq.java:118)
+		at de.endrullis.lazyseq.LazySeq$$Lambda$2.get(Unknown Source)
+		at de.endrullis.lazyseq.Cons.tail(Cons.java:32)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
+		at de.endrullis.lazyseq.LazySeq.size(LazySeq.java:325)
 
 When working with possibly infinite data structures, care must be taken. Avoid calling operations that *must* (`size()`, `allMatch()`, `minBy()`, `forEach()`, `reduce()`, ...) or *can* (`filter()`, `distinct()`, ...) traverse the whole sequence in order to give correct results. See *Pitfalls* for more examples and ways to avoid.
 
 ## Maturity
 
-[![Build Status](https://travis-ci.org/nurkiewicz/LazySeq.svg?branch=master)](https://travis-ci.org/nurkiewicz/LazySeq)
+[![Build Status](https://travis-ci.org/xylo/LazySeq.svg?branch=master)](https://travis-ci.org/xylo/LazySeq)
 
 ### Quality
 
-This project was started as an exercise and is not battle-proven. But a healthy [300+ unit-test suite](https://github.com/nurkiewicz/LazySeq/tree/master/src/test/java/com/blogspot/nurkiewicz/lazyseq) (3:1 test code/production code ratio) guards quality and functional correctness. I also make sure `LazySeq` is as lazy as possible by mocking tail functions and verifying they are called as rarely as one can get.
+This project started as an exercise but got improved further and further while using it in industry projects. Several bugs have been eliminated in the meanwhile. However, the code might still contain bugs, but a healthy [300+ unit-test suite](https://github.com/xylo/LazySeq/tree/master/src/test/java/de/endrullis/lazyseq) (3:1 test code/production code ratio) guards quality and functional correctness. I also make sure `LazySeq` is as lazy as possible by mocking tail functions and verifying they are called as rarely as one can get.
 
 Project was tested on [Java 8 build 113](https://jdk8.java.net/download.html) with lambda support.
 
 ### Contributions and bug reports
 
-In the event of finding a bug or missing feature, don't hesitate to open a [new ticket](https://github.com/nurkiewicz/LazySeq/issues) or start [pull request](https://github.com/nurkiewicz/LazySeq/pulls). I would also love to see more interesting usages of `LazySeq` in wild.
+In the event of finding a bug or missing feature, don't hesitate to open a [new ticket](https://github.com/xylo/LazySeq/issues) or start [pull request](https://github.com/xylo/LazySeq/pulls). I would also love to see more interesting usages of `LazySeq` in wild.
 
 ## License
 This project is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
