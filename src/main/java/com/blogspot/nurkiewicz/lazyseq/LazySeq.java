@@ -34,6 +34,22 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	@NotNull
 	public abstract LazySeq<E> tail();
 
+	/**
+	 * Returns the last element of the sequence.
+	 * Call this method only on finite sequences.
+	 *
+	 * @return the last element of the sequence
+	 */
+	@NotNull
+	public E last() {
+		return get(size() - 1);
+	}
+
+	@NotNull
+	public Option<E> lastOption() {
+		return isEmpty() ? Option.none() : Option.of(last());
+	}
+
 	@NotNull
 	public static <E> LazySeq<E> of(@NotNull E element) {
 		return cons(element, empty());
@@ -801,5 +817,3 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 }
-
-
