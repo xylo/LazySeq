@@ -1,6 +1,5 @@
 package de.endrullis.lazyseq;
 
-import de.endrullis.lazyseq.LazySeq;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
