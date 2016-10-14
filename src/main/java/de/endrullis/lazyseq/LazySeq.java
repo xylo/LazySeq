@@ -16,6 +16,7 @@ import static de.endrullis.lazyseq.Shortcuts.t;
  * @author Tomasz Nurkiewicz
  * @since 5/6/13, 9:20 PM
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class LazySeq<E> extends AbstractList<E> {
 
 	@SuppressWarnings("unchecked")
@@ -740,6 +741,24 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	@NotNull
 	public LazySeq<E> scan(@NotNull E initial, @NotNull BinaryOperator<E> fun) {
 		return cons(initial, () -> tail().scan(fun.apply(initial, head()), fun));
+	}
+
+	/**
+	 * Returns the reverse sequence.
+	 *
+	 * @return the reverse sequence
+	 */
+	@NotNull
+	public LazySeq<E> reverse() {
+		LazySeq<E> curr = this;
+		LazySeq<E> rev = empty();
+
+		while (!curr.isEmpty()) {
+			rev = new FixedCons<>(curr.head(), rev);
+			curr = curr.tail();
+		}
+
+		return rev;
 	}
 
 	@NotNull
