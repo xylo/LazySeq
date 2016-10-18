@@ -26,6 +26,7 @@ More precisely it adds the following methods to the LazySeq class:
 * `zip(LazySeq<? extends S> second)`
 * `zipWithIndex()`
 * `zipWithIndex(int startIndex)`
+* `reverse()`
 
 Since functions like forEach, map, filter, and so on are not capable of forwarding exceptions to the next higher scope,
 special versions of those methods were added marked with an `Ex` suffix (e.g. `forEachEx`).
