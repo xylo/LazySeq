@@ -243,6 +243,17 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	@NotNull
 	public abstract <R> LazySeq<R> map(@NotNull Function<? super E, ? extends R> mapper);
 
+	@NotNull
+	public <R> LazySeq<R> mapEx(@NotNull ExceptionFunction<? super E, ? extends R, ? extends Exception> mapper) {
+		return map(i -> {
+			try {
+				return mapper.apply(i);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		});
+	}
+
 	@Override
 	@NotNull
 	public Stream<E> stream() {
