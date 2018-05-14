@@ -9,7 +9,8 @@ when you work with larger datasets.
 
 More precisely it adds the following methods to the LazySeq class:
 
-* `concat(LazySeq<E> seq)`               
+* `concat(LazySeq<E> seq)`
+* `dropRight(long n)`
 * `find(Predicate<? super E> predicate)`
 * `groupBy(Function<E,K> key)`
 * `groupBy(Function<E,K> key, Function<E,V> value)`
@@ -19,6 +20,7 @@ More precisely it adds the following methods to the LazySeq class:
 * `maxBy(Function<? super E, C> property)`
 * `mkString(String sep)`
 * `mkString(String start, String sep, String end)`
+* `nonEmpty()`
 * `toMap(Function<E,K> key, Function<E,V> value)`
 * `exists(Predicate<? super E> predicate)`
 * `forall(Predicate<? super E> predicate)`
@@ -54,7 +56,6 @@ as well as special `BiFunction` versions of the known functions
 * `flatMap(BiFunction<? super K, ? super V, ? extends Iterable<? extends R>> mapper)`
 * `filter(BiPredicate<? super K, ? super V> predicate)`
 * `takeWhile(BiPredicate<? super K, ? super V> predicate)`
-* `dropRight(long n)`
 * `dropWhile(BiPredicate<? super K, ? super V> predicate)`
 * `sortedBy(BiFunction<? super K, ? super V, ? extends Comparable> attribute)`
 * `forEach(BiConsumer<? super K, ? super V> action)`

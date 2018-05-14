@@ -607,6 +607,10 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return false;
 	}
 
+	public boolean nonEmpty() {
+		return !isEmpty();
+	}
+
 	@Override
 	public int size() {
 		LazySeq<E> seq = this;
