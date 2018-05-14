@@ -54,6 +54,7 @@ as well as special `BiFunction` versions of the known functions
 * `flatMap(BiFunction<? super K, ? super V, ? extends Iterable<? extends R>> mapper)`
 * `filter(BiPredicate<? super K, ? super V> predicate)`
 * `takeWhile(BiPredicate<? super K, ? super V> predicate)`
+* `dropRight(long n)`
 * `dropWhile(BiPredicate<? super K, ? super V> predicate)`
 * `sortedBy(BiFunction<? super K, ? super V, ? extends Comparable> attribute)`
 * `forEach(BiConsumer<? super K, ? super V> action)`

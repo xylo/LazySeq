@@ -473,6 +473,22 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return dropUnsafe(startInclusive);
 	}
 
+	@NotNull
+	public LazySeq<E> dropRight(long numberOfItemsToDropAtEnd) {
+		if (numberOfItemsToDropAtEnd < 0) {
+			throw new IllegalArgumentException(Long.toString(numberOfItemsToDropAtEnd));
+		} else if (numberOfItemsToDropAtEnd == 0) {
+			return this;
+		} else {
+			long size = size();
+			if (numberOfItemsToDropAtEnd > size) {
+				return LazySeq.empty();
+			} else {
+				return take(size - numberOfItemsToDropAtEnd);
+			}
+		}
+	}
+
 	/**
 	 * Procedural implementation of dropUnsafeFunctional (which causes StackOverflows).
 	 *
