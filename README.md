@@ -1,4 +1,7 @@
-# Lazy sequences implementation for Java 8+ [![Build Status](https://travis-ci.org/xylo/LazySeq.svg?branch=master)](https://travis-ci.org/xylo/LazySeq)
+[![Build Status](https://travis-ci.org/xylo/LazySeq.svg?branch=master)](https://travis-ci.org/xylo/LazySeq)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.endrullis.lazyseq/lazyseq/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.endrullis.lazyseq/lazyseq)
+
+# Lazy sequences implementation for Java 8+
 
 ## Download
 
