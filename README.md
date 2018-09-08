@@ -1,5 +1,15 @@
 # Lazy sequences implementation for Java 8+ [![Build Status](https://travis-ci.org/xylo/LazySeq.svg?branch=master)](https://travis-ci.org/xylo/LazySeq)
 
+## Download
+
+Add the following dependency to your pom.xml:
+
+	<dependency>
+		<groupId>de.endrullis.lazyseq</groupId>
+		<artifactId>lazyseq</artifactId>
+		<version>1.0.0</version>
+	</dependency>
+
 ## About this fork
 
 This project is a fork of the [https://github.com/nurkiewicz/LazySeq/](LazySeq project created by Tomasz Nurkiewicz)
