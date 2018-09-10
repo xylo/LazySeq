@@ -10,10 +10,12 @@ package de.endrullis.lazyseq.function;
 public interface ExceptionSupplier<O, E extends Exception> {
 
 	/**
-  * Gets a result.
-  *
-  * @return a result
-  */
+	 * Gets a result.
+	 *
+	 * @return a result
+	 * @throws E exception that might be thrown during the execution
+	 */
 	O get() throws E;
 
 }
+

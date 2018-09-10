@@ -14,7 +14,9 @@ public interface ExceptionBiConsumer<A, B, E extends Exception> {
 	/**
 	 * Performs this operation on the given arguments.
 	 *
-	 * @param a the input argument
+	 * @param a the first input argument
+	 * @param b the second input argument
+	 * @throws E exception that might be thrown during the execution
 	 */
 	void accept(A a, B b) throws E;
 

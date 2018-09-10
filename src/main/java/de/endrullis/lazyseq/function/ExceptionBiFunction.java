@@ -17,6 +17,7 @@ public interface ExceptionBiFunction<T, U, R, E extends Exception> {
 	 * @param t the first function argument
 	 * @param u the second function argument
 	 * @return the function result
+	 * @throws E exception that might be thrown during the execution
 	 */
 	R apply(T t, U u) throws E;
 

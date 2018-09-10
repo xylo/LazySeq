@@ -18,18 +18,22 @@ public interface ExceptionPredicate<A, E extends Exception> {
 	 * @param a the input argument
 	 * @return {@code true} if the input argument matches the predicate,
 	 * otherwise {@code false}
+	 * @throws E exception that might be thrown during the execution
 	 */
 	boolean test(A a) throws E;
 
 	/**
+	 * <p>
 	 * Returns a composed predicate that represents a short-circuiting logical
 	 * AND of this predicate and another.  When evaluating the composed
 	 * predicate, if this predicate is {@code false}, then the {@code other}
 	 * predicate is not evaluated.
+	 * </p>
 	 * <p>
-	 * <p>Any exceptions thrown during evaluation of either predicate are relayed
+	 * Any exceptions thrown during evaluation of either predicate are relayed
 	 * to the caller; if evaluation of this predicate throws an exception, the
 	 * {@code other} predicate will not be evaluated.
+	 * </p>
 	 *
 	 * @param other a predicate that will be logically-ANDed with this
 	 *              predicate
@@ -59,15 +63,18 @@ public interface ExceptionPredicate<A, E extends Exception> {
 	}
 
 	/**
+	 * <p>
 	 * Returns a composed predicate that represents a short-circuiting logical
 	 * OR of this predicate and another.  When evaluating the composed
 	 * predicate, if this predicate is {@code true}, then the {@code other}
 	 * predicate is not evaluated.
+	 * </p>
 	 * <p>
-	 * <p>Any exceptions thrown during evaluation of either predicate are relayed
+	 * Any exceptions thrown during evaluation of either predicate are relayed
 	 * to the caller; if evaluation of this predicate throws an exception, the
 	 * {@code other} predicate will not be evaluated.
-	 *
+	 * </p>
+	 * 
 	 * @param other a predicate that will be logically-ORed with this
 	 *              predicate
 	 * @return a composed predicate that represents the short-circuiting logical

@@ -16,22 +16,27 @@ public interface ExceptionBiPredicate<A, B, E extends Exception> {
 	/**
 	 * Evaluates this predicate on the given argument.
 	 *
-	 * @param a the input argument
+	 * @param a the first input argument
+	 * @param b the second input argument
 	 * @return {@code true} if the input argument matches the predicate,
 	 * otherwise {@code false}
+	 * @throws E exception that might be thrown during the execution
 	 */
 	boolean test(A a, B b) throws E;
 
 	/**
+	 * <p>
 	 * Returns a composed predicate that represents a short-circuiting logical
 	 * AND of this predicate and another.  When evaluating the composed
 	 * predicate, if this predicate is {@code false}, then the {@code other}
 	 * predicate is not evaluated.
+	 * </p>
 	 * <p>
-	 * <p>Any exceptions thrown during evaluation of either predicate are relayed
+	 * Any exceptions thrown during evaluation of either predicate are relayed
 	 * to the caller; if evaluation of this predicate throws an exception, the
 	 * {@code other} predicate will not be evaluated.
-	 *
+	 * </p>
+	 * 
 	 * @return a composed predicate that represents the short-circuiting logical
 	 * AND of this predicate and the {@code other} predicate
 	 * @throws NullPointerException if other is null
@@ -39,15 +44,18 @@ public interface ExceptionBiPredicate<A, B, E extends Exception> {
 	default ExceptionBiPredicate<A, B, E> and() {return and();}
 
 	/**
+	 * <p>
 	 * Returns a composed predicate that represents a short-circuiting logical
 	 * AND of this predicate and another.  When evaluating the composed
 	 * predicate, if this predicate is {@code false}, then the {@code other}
 	 * predicate is not evaluated.
+	 * </p>
 	 * <p>
-	 * <p>Any exceptions thrown during evaluation of either predicate are relayed
+	 * Any exceptions thrown during evaluation of either predicate are relayed
 	 * to the caller; if evaluation of this predicate throws an exception, the
 	 * {@code other} predicate will not be evaluated.
-	 *
+	 * </p>
+	 * 
 	 * @param other a predicate that will be logically-ANDed with this
 	 *              predicate
 	 * @return a composed predicate that represents the short-circuiting logical
@@ -76,15 +84,18 @@ public interface ExceptionBiPredicate<A, B, E extends Exception> {
 	}
 
 	/**
+	 * <p>
 	 * Returns a composed predicate that represents a short-circuiting logical
 	 * OR of this predicate and another.  When evaluating the composed
 	 * predicate, if this predicate is {@code true}, then the {@code other}
 	 * predicate is not evaluated.
+	 * </p>
 	 * <p>
-	 * <p>Any exceptions thrown during evaluation of either predicate are relayed
+	 * Any exceptions thrown during evaluation of either predicate are relayed
 	 * to the caller; if evaluation of this predicate throws an exception, the
 	 * {@code other} predicate will not be evaluated.
-	 *
+	 * </p>
+	 * 
 	 * @param other a predicate that will be logically-ORed with this
 	 *              predicate
 	 * @return a composed predicate that represents the short-circuiting logical

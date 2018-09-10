@@ -15,6 +15,7 @@ public interface ExceptionConsumer<A, E extends Exception> {
 	 * Performs this operation on the given argument.
 	 *
 	 * @param a the input argument
+	 * @throws E exception that might be thrown during the execution
 	 */
 	void accept(A a) throws E;
 
