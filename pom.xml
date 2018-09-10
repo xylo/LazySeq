@@ -3,7 +3,7 @@
 
 	<groupId>de.endrullis.lazyseq</groupId>
 	<artifactId>lazyseq</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 
 	<name>LazySeq</name>
 	<description>Implementation of lazy sequences for Java 8 and later.</description>
