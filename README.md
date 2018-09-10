@@ -1,4 +1,7 @@
-# Lazy sequences implementation for Java 8+ [![Build Status](https://travis-ci.org/xylo/LazySeq.svg?branch=master)](https://travis-ci.org/xylo/LazySeq)
+[![Build Status](https://travis-ci.org/xylo/LazySeq.svg?branch=master)](https://travis-ci.org/xylo/LazySeq)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.endrullis.lazyseq/lazyseq/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.endrullis.lazyseq/lazyseq)
+
+# Lazy sequences implementation for Java 8+
 
 ## Download
 
@@ -12,7 +15,7 @@ Add the following dependency to your pom.xml:
 
 ## About this fork
 
-This project is a fork of the [https://github.com/nurkiewicz/LazySeq/](LazySeq project created by Tomasz Nurkiewicz)
+This project is a fork of the [LazySeq project created by Tomasz Nurkiewicz](https://github.com/nurkiewicz/LazySeq/)
 with more `LazySeq` functions and a special support for sequences of tuples (`LazyTupleSeq`).
 It has also a more complete JavaDoc documentation and it fixes several `StackOverflowException`s the original project suffered from
 when you work with larger datasets.
