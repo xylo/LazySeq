@@ -1,5 +1,8 @@
 package de.endrullis.lazyseq;
 
+import de.endrullis.lazyseq.function.ExceptionConsumer;
+import de.endrullis.lazyseq.function.ExceptionFunction;
+import de.endrullis.lazyseq.function.ExceptionPredicate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -7,8 +10,6 @@ import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import de.endrullis.lazyseq.function.*;
 
 import static de.endrullis.lazyseq.Shortcuts.t;
 
@@ -828,7 +829,7 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	 * @return sorted {@link LazySeq}
 	 */
 	@NotNull
-	public LazySeq<E> sortedBy(@NotNull Function<? super E, ? extends Comparable> property) {
+	public <U extends Comparable<? super U>> LazySeq<E> sortedBy(@NotNull Function<? super E, U> property) {
 		return sorted(Comparator.comparing(property));
 	}
 

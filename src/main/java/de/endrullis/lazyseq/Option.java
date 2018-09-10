@@ -1,7 +1,5 @@
 package de.endrullis.lazyseq;
 
-import de.endrullis.lazyseq.None;
-import de.endrullis.lazyseq.Some;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,6 +7,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import static de.endrullis.lazyseq.CastUtils.cast;
 
 /**
  * Java 8 implementation of Scala's Option.
@@ -31,7 +31,7 @@ public interface Option<T> extends Supplier<T>, Iterable<T> {
 	@NotNull
 	static <T> Option<T> empty() {
 		//noinspection unchecked
-		return (Option<T>) NONE;
+		return cast(NONE);
 	}
 
 	/**
@@ -42,7 +42,7 @@ public interface Option<T> extends Supplier<T>, Iterable<T> {
 	@NotNull
 	static <T> Option<T> none() {
 		//noinspection unchecked
-		return (Option<T>) NONE;
+		return cast(NONE);
 	}
 
 	/**

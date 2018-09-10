@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.function.*;
 
+import static de.endrullis.lazyseq.CastUtils.cast;
 import static de.endrullis.lazyseq.Shortcuts.tupled;
 import static de.endrullis.lazyseq.Shortcuts.tupledEx;
 
@@ -136,7 +137,10 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 	@NotNull
 	@Override
 	public LazyTupleSeq<K, V> sorted() {
-		return sorted((o1, o2) -> ((Comparable<Tuple<K, V>>) o1).compareTo(o2));
+		return sorted((o1, o2) -> {
+			final Comparable<Tuple<K, V>> co1 = cast(o1);
+			return co1.compareTo(o2);
+		});
 	}
 
 	@NotNull
@@ -147,12 +151,12 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 
 	@NotNull
 	@Override
-	public LazyTupleSeq<K, V> sortedBy(@NotNull Function<? super Tuple<K, V>, ? extends Comparable> attribute) {
+	public <U extends Comparable<? super U>> LazyTupleSeq<K, V> sortedBy(@NotNull Function<? super Tuple<K, V>, U> attribute) {
 		return sorted(Comparator.comparing(attribute));
 	}
 
 	@NotNull
-	public LazyTupleSeq<K, V> sortedBy(BiFunction<? super K, ? super V, ? extends Comparable> attribute) {
+	public <U extends Comparable<? super U>> LazyTupleSeq<K, V> sortedBy(BiFunction<? super K, ? super V, U> attribute) {
 		return sortedBy(tupled(attribute));
 	}
 
