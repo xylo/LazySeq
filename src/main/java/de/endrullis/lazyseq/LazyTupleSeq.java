@@ -243,6 +243,10 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return noneMatchEx(tupledEx(predicate));
 	}
 
+	public int count(BiPredicate<? super K, ? super V> predicate) {
+		return count(tupled(predicate));
+	}
+
 	public boolean exists(BiPredicate<? super K, ? super V> predicate) {
 		return exists(tupled(predicate));
 	}

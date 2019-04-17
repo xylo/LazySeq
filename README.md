@@ -37,6 +37,7 @@ More precisely it adds the following methods to the LazySeq class:
 * `toMap(Function<E,K> key, Function<E,V> value)`
 * `exists(Predicate<? super E> predicate)`
 * `forall(Predicate<? super E> predicate)`
+* `count(Predicate<? super E> predicate)`
 * `sortedBy(Function<? super E, ? extends Comparable> property)` 
 * `zip(LazySeq<? extends S> second)`
 * `zipWithIndex()`
@@ -79,6 +80,7 @@ as well as special `BiFunction` versions of the known functions
 * `noneMatch(BiPredicate<? super K, ? super V> predicate)`
 * `exists(BiPredicate<? super K, ? super V> predicate)`
 * `forall(BiPredicate<? super K, ? super V> predicate)`
+* `count(BiPredicate<? super K, ? super V> predicate)`
 * `zip(LazySeq<? extends S> second, BiFunction<? super Tuple<K, V>, ? super S, ? extends R> zipper)`
 
 Additionally this fork adds an implementation for the non-implemented close() method in `LazySeqStream`.

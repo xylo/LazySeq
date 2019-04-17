@@ -673,6 +673,16 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return allMatchEx(predicate.negate());
 	}
 
+	public int count(@NotNull Predicate<? super E> predicate) {
+		int count = 0;
+		for (E e : this) {
+			if (predicate.test(e)) {
+				count++;
+			}
+		}
+		return count;
+	}
+
 	public boolean exists(@NotNull Predicate<? super E> predicate) {
 		return anyMatch(predicate);
 	}
