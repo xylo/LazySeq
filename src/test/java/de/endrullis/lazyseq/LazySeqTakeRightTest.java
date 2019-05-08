@@ -5,17 +5,15 @@ import org.testng.annotations.Test;
 
 import java.util.function.Supplier;
 
-import static de.endrullis.lazyseq.LazySeq.numbers;
 import static de.endrullis.lazyseq.LazySeq.of;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.failBecauseExceptionWasNotThrown;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
  * @author Tomasz Nurkiewicz
  * @since 5/11/13, 5:40 PM
  */
-public class LazySeqTakeTest extends AbstractBaseTestCase {
+public class LazySeqTakeRightTest extends AbstractBaseTestCase {
 
 	@Mock
 	private Supplier<LazySeq<Integer>> supplierMock;
@@ -27,7 +25,7 @@ public class LazySeqTakeTest extends AbstractBaseTestCase {
 
 		try {
 			//when
-			seq.limit(-1);
+			seq.takeRight(-1);
 			failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
 		} catch (IllegalArgumentException e) {
 			//then
@@ -40,7 +38,7 @@ public class LazySeqTakeTest extends AbstractBaseTestCase {
 		final LazySeq<Object> empty = LazySeq.empty();
 
 		//when
-		final LazySeq<Object> limited = empty.limit(10);
+		final LazySeq<Object> limited = empty.takeRight(10);
 
 		//then
 		assertThat(limited).isEmpty();
@@ -52,7 +50,7 @@ public class LazySeqTakeTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> shortSeq = of(1, 2);
 
 		//when
-		final LazySeq<Integer> limited = shortSeq.limit(5);
+		final LazySeq<Integer> limited = shortSeq.takeRight(5);
 
 		//then
 		assertThat(limited).isEqualTo(of(1, 2));
@@ -64,34 +62,10 @@ public class LazySeqTakeTest extends AbstractBaseTestCase {
 		final LazySeq<Integer> shortSeq = of(1, 2, 3, 4, 5);
 
 		//when
-		final LazySeq<Integer> limited = shortSeq.limit(3);
+		final LazySeq<Integer> limited = shortSeq.takeRight(3);
 
 		//then
-		assertThat(limited).isEqualTo(of(1, 2, 3));
-	}
-
-	@Test
-	public void shouldTrimInfiniteSeq() throws Exception {
-		//given
-		final LazySeq<Integer> shortSeq = numbers(1);
-
-		//when
-		final LazySeq<Integer> limited = shortSeq.limit(3);
-
-		//then
-		assertThat(limited).isEqualTo(of(1, 2, 3));
-	}
-
-	@Test
-	public void shouldNotEvaluateTailWhenTakingFirstFewElements() throws Exception {
-		//given
-		final LazySeq<Integer> infinite = of(1, supplierMock);
-
-		//when
-		infinite.take(10);
-
-		//then
-		verifyZeroInteractions(supplierMock);
+		assertThat(limited).isEqualTo(of(3, 4, 5));
 	}
 
 }

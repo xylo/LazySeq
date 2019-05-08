@@ -469,6 +469,28 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		return takeUnsafe(maxSize);
 	}
 
+	/**
+	 * Returns the given number of elements from the end of this sequence.  If the
+	 * Note that this implementation iterates twice over this sequence.
+	 *
+	 * @param maxSize maximum number of elements.
+	 * @return the given number of elements from the end of this sequence
+	 */
+	@NotNull
+	public LazySeq<E> takeRight(long maxSize) {
+		if (maxSize < 0) {
+			throw new IllegalArgumentException(Long.toString(maxSize));
+		}
+		if (maxSize == 0) {
+			return empty();
+		}
+		int size = size();
+		if (maxSize >= size) {
+			return this;
+		}
+		return drop(size - maxSize);
+	}
+
 	@NotNull
 	protected abstract LazySeq<E> takeUnsafe(long maxSize);
 
