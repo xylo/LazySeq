@@ -347,6 +347,12 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	}
 
 	@NotNull
+	public <R extends E> LazySeq<R> collect(@NotNull Class<R> resultClass) {
+		//noinspection unchecked
+		return filter(e -> resultClass.isInstance(e)).map(e -> (R) e);
+	}
+
+	@NotNull
 	public Option<E> find(@NotNull Predicate<? super E> predicate) {
 		return filter(predicate).headOption();
 	}

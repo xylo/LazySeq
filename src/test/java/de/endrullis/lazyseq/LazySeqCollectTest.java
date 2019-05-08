@@ -1,200 +1,88 @@
 package de.endrullis.lazyseq;
 
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
-import java.util.List;
+import java.util.function.Supplier;
 
-import static de.endrullis.lazyseq.LazySeq.empty;
-import static de.endrullis.lazyseq.LazySeq.of;
-import static java.util.stream.Collectors.toList;
+import static de.endrullis.lazyseq.LazySeq.*;
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
  * @author Tomasz Nurkiewicz
- * @since 5/11/13, 12:19 PM
+ * @since 5/11/13, 3:52 PM
  */
 public class LazySeqCollectTest extends AbstractBaseTestCase {
 
+	@Mock
+	private Supplier<LazySeq<Object>> supplierMock;
+
 	@Test
-	public void shouldCollectEmptySeq() throws Exception {
-		//given
-		final LazySeq<Integer> empty = empty();
-
-		//when
-		final LazySeq<Integer> collected = empty.
-				stream().
-				collect(LazySeq.<Integer>toLazySeq());
-
-		//then
-		assertThat(collected).isEmpty();
+	public void shouldReturnEmptySeqWhenFilteringEmptySeq() throws Exception {
+		assertThat(empty().collect(Object.class)).isEqualTo(empty());
 	}
 
 	@Test
-	public void shouldCollectFixedLengthSeq() throws Exception {
+	public void shouldReturnSameSeqWhenCollectingTheSameObjects() throws Exception {
 		//given
 		final LazySeq<Integer> fixed = of(1, 2, 3);
 
-		//when
-		final LazySeq<Integer> collected = fixed.
-				stream().
-				collect(LazySeq.<Integer>toLazySeq());
+		// when
+		final LazySeq<Integer> collected = fixed.collect(Integer.class);
 
-		//then
-		assertThat(collected).isEqualTo(of(1, 2, 3));
+		assertThat(collected).isEqualTo(fixed);
 	}
 
 	@Test
-	public void shouldCollectInfiniteStream() throws Exception {
+	public void shouldReturnEmptySeqWhenNoElementsMatchInFixedSeq() throws Exception {
 		//given
-		final LazySeq<Integer> infinite = LazySeq.iterate(1, x -> x * 2);
+		final LazySeq<Object> fixed = of(-1, -2, -3);
 
 		//when
-		final LazySeq<Integer> collected = infinite.
-				stream().
-				collect(LazySeq.<Integer>toLazySeq());
+		final LazySeq<Double> filtered = fixed.collect(Double.class);
 
 		//then
-		assertThat(collected.take(5)).isEqualTo(of(1, 2, 4, 8, 16));
+		assertThat(filtered).isEmpty();
 	}
 
 	@Test
-	public void shouldCollectEmptySeqToList() throws Exception {
+	public void shouldNotEvaluateTailIfHeadMatchesPredicate() throws Exception {
 		//given
-		final LazySeq<Integer> empty = empty();
+		final LazySeq<Object> generated = LazySeq.of("A", "BB", supplierMock);
 
 		//when
-		final List<Integer> collected = empty.
-				stream().
-				collect(toList());
+		generated.collect(String.class);
 
 		//then
-		assertThat(collected).isEmpty();
+		verifyZeroInteractions(supplierMock);
 	}
 
 	@Test
-	public void shouldCollectFixedLengthSeqToList() throws Exception {
+	public void shouldEvaluateTailOnceWhenFirstElementNotMatching() throws Exception {
 		//given
-		final LazySeq<Integer> fixed = of(1, 2, 3);
+		final LazySeq<Object> generated = LazySeq.cons("", supplierMock);
+		given(supplierMock.get()).willReturn(of("C"));
 
 		//when
-		final List<Integer> collected = fixed.
-				stream().
-				collect(toList());
+		generated.collect(String.class);
 
 		//then
-		assertThat(collected).containsExactly(1, 2, 3);
+		Mockito.verify(supplierMock).get();
 	}
 
 	@Test
-	public void shouldCollectInfiniteStreamToList() throws Exception {
+	public void shouldFilterSeveralItemsFromFiniteSeq() throws Exception {
 		//given
-		final LazySeq<Integer> infinite = LazySeq.iterate(1, x -> x * 2);
+		final LazySeq<Object> fixed = of(1, 2.2, 3, 4.4, 5);
 
 		//when
-		final List<Integer> collected = infinite.
-				stream().
-				limit(5).
-				collect(toList());
+		final LazySeq<Integer> collected = fixed.collect(Integer.class);
 
 		//then
-		assertThat(collected).containsExactly(1, 2, 4, 8, 16);
-	}
-
-	@Test
-	public void shouldCollectEmptySeqAfterFewTransformations() throws Exception {
-		//given
-		final LazySeq<Integer> empty = empty();
-
-		//when
-		final LazySeq<Integer> collected = empty.
-				stream().
-				filter(x -> x > 1).
-				map(x -> x + 10).
-				collect(LazySeq.<Integer>toLazySeq());
-
-		//then
-		assertThat(collected).isEmpty();
-	}
-
-	@Test
-	public void shouldCollectFixedLengthSeqAfterFewTransformations() throws Exception {
-		//given
-		final LazySeq<Integer> fixed = of(1, 2, 3);
-
-		//when
-		final LazySeq<Integer> collected = fixed.
-				stream().
-				filter(x -> x > 1).
-				map(x -> x + 10).
-				collect(LazySeq.<Integer>toLazySeq());
-
-		//then
-		assertThat(collected).isEqualTo(of(12, 13));
-	}
-
-	@Test
-	public void shouldCollectInfiniteStreamAfterFewTransformations() throws Exception {
-		//given
-		final LazySeq<Integer> infinite = LazySeq.iterate(1, x -> x * 2);
-
-		//when
-		final LazySeq<Integer> collected = infinite.
-				stream().
-				filter(x -> x > 1).
-				map(x -> x + 10).
-				collect(LazySeq.<Integer>toLazySeq());
-
-		//then
-		assertThat(collected.take(5)).isEqualTo(of(12, 14, 18, 26, 42));
-	}
-
-	@Test
-	public void shouldCollectEmptySeqAfterFewTransformationsToList() throws Exception {
-		//given
-		final LazySeq<Integer> empty = empty();
-
-		//when
-		final List<Integer> collected = empty.
-				stream().
-				filter(x -> x > 1).
-				map(x -> x + 10).
-				collect(toList());
-
-		//then
-		assertThat(collected).isEmpty();
-	}
-
-	@Test
-	public void shouldCollectFixedLengthSeqAfterFewTransformationsToList() throws Exception {
-		//given
-		final LazySeq<Integer> fixed = of(1, 2, 3);
-
-		//when
-		final List<Integer> collected = fixed.
-				stream().
-				filter(x -> x > 1).
-				map(x -> x + 10).
-				collect(toList());
-
-		//then
-		assertThat(collected).containsExactly(12, 13);
-	}
-
-	@Test
-	public void shouldCollectInfiniteStreamAfterFewTransformationsToList() throws Exception {
-		//given
-		final LazySeq<Integer> infinite = LazySeq.iterate(1, x -> x * 2);
-
-		//when
-		final List<Integer> collected = infinite.
-				stream().
-				filter(x -> x > 1).
-				map(x -> x + 10).
-				limit(5).
-				collect(toList());
-
-		//then
-		assertThat(collected).containsExactly(12, 14, 18, 26, 42);
+		assertThat(collected).containsExactly(1, 3, 5);
 	}
 
 }
