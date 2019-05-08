@@ -25,6 +25,7 @@ More precisely it adds the following methods to the LazySeq class:
 * `concat(LazySeq<E> seq)`
 * `dropRight(long n)`
 * `find(Predicate<? super E> predicate)`
+* `collect(Class<R>)`
 * `groupBy(Function<E,K> key)`
 * `groupBy(Function<E,K> key, Function<E,V> value)`
 * `groupBy(Function<E,K> key, Function<E,V> value, Collector<V,?,R> valueCollector)`
