@@ -61,19 +61,6 @@ public class LazySeqCollectTest extends AbstractBaseTestCase {
 	}
 
 	@Test
-	public void shouldEvaluateTailOnceWhenFirstElementNotMatching() throws Exception {
-		//given
-		final LazySeq<Object> generated = LazySeq.cons("", supplierMock);
-		given(supplierMock.get()).willReturn(of("C"));
-
-		//when
-		generated.collect(String.class);
-
-		//then
-		Mockito.verify(supplierMock).get();
-	}
-
-	@Test
 	public void shouldFilterSeveralItemsFromFiniteSeq() throws Exception {
 		//given
 		final LazySeq<Object> fixed = of(1, 2.2, 3, 4.4, 5);
