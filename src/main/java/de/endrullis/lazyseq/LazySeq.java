@@ -838,13 +838,18 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 
 	@NotNull
 	private LazySeq<E> filterOutSeen(@NotNull Set<E> exclude) {
-		final LazySeq<E> moreDistinct = filter(e -> !exclude.contains(e));
-		if (moreDistinct.isEmpty()) {
+		LazySeq<E> curr = this;
+		while (!curr.isEmpty() && exclude.contains(curr.head())) {
+			curr = curr.tail();
+		}
+
+		if (!curr.isEmpty()) {
+			exclude.add(curr.head());
+			final LazySeq<E> finalCurr = curr;
+			return cons(curr.head(), () -> finalCurr.tail().filterOutSeen(exclude));
+		} else {
 			return empty();
 		}
-		final E next = moreDistinct.head();
-		exclude.add(next);
-		return cons(next, () -> moreDistinct.tail().filterOutSeen(exclude));
 	}
 
 	@SuppressWarnings("unchecked")

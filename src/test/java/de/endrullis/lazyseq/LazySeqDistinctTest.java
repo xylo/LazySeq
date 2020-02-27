@@ -116,4 +116,17 @@ public class LazySeqDistinctTest extends AbstractBaseTestCase {
 		assertThat(dist.take(5)).isEqualTo(of(2, 3, 7, 5, 11));
 	}
 
+	@Test
+	public void shouldNotThrowStackOverflowError() {
+		//given
+		final int expectedSize = 1000 * 1000;
+		LazySeq<Integer> take = LazySeq.numbers(1).take(expectedSize);
+
+		// when
+		final int size = take.distinct().size();
+
+		//then
+		assertThat(size).isEqualTo(expectedSize);
+	}
+
 }
