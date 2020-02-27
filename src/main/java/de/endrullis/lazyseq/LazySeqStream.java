@@ -26,7 +26,7 @@ class LazySeqStream<E> implements Stream<E> {
 
 	@Override
 	public <R> Stream<R> map(Function<? super E, ? extends R> mapper) {
-		return underlying.map(mapper).stream();
+		return underlying.map(v -> ((R) mapper.apply(v))).stream();
 	}
 
 	@Override
