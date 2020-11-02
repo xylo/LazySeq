@@ -49,7 +49,7 @@ public class LazySeqSizeTest extends AbstractBaseTestCase {
 	@Test
 	public void shouldNotThrowStackOverflowError() {
 		//given
-		final int expectedSize = 1000 * 1000;
+		final int expectedSize = 1_000_000;
 		LazySeq<Integer> take = LazySeq.numbers(1).take(expectedSize);
 
 		// when

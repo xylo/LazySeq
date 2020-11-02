@@ -763,11 +763,13 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 
 	@NotNull
 	public LazySeq<E> dropWhile(@NotNull Predicate<? super E> predicate) {
-		if (predicate.test(head())) {
-			return tail().dropWhile(predicate);
-		} else {
-			return this;
+		LazySeq<E> seq = this;
+
+		while (predicate.test(seq.head())) {
+			seq = seq.tail();
 		}
+
+		return seq;
 	}
 
 	@NotNull
