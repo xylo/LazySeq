@@ -109,4 +109,19 @@ public class LazySeqDropWhileTest extends AbstractBaseTestCase {
 		assertThat(filtered.take(5)).isEqualTo(of(11, 13, 17, 19, 23));
 	}
 
+	@Test
+	public void shouldNotThrowStackOverflowError() {
+		//given
+		final int initialSize = 1_000_000;
+		final int expectedSize = 1;
+		LazySeq<Integer> take = LazySeq.numbers(1).take(initialSize);
+
+		// when
+		final int size = take.dropWhile(i -> i < initialSize).size();
+
+		//then
+		assertThat(size).isEqualTo(expectedSize);
+	}
+
+
 }
