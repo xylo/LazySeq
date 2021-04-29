@@ -3,7 +3,7 @@
 
 	<groupId>de.endrullis.lazyseq</groupId>
 	<artifactId>lazyseq</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.3-SNAPSHOT</version>
 
 	<name>LazySeq</name>
 	<description>Implementation of lazy sequences for Java 8 and later.</description>
@@ -53,9 +53,10 @@
 	<dependencies>
 		<!-- Intellij IDEA annotations. -->
 		<dependency>
-			<groupId>com.intellij</groupId>
+			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
-			<version>12.0</version>
+			<version>20.1.0</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<!-- Testing -->
