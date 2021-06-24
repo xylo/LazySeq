@@ -102,6 +102,11 @@ public class LazyTupleSeq<K,V> extends LazySeq<Tuple<K,V>> {
 		return filter(tupled(predicate));
 	}
 
+	@NotNull 
+	public Option<Tuple<K, V>> find(BiPredicate<? super K, ? super V> predicate) {
+		return find(tupled(predicate));
+	}
+
 	@NotNull
 	@Override
 	public LazyTupleSeq<K,V> takeWhile(@NotNull Predicate<? super Tuple<K, V>> predicate) {
