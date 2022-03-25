@@ -62,6 +62,16 @@ public class Some<T> implements Option<T> {
 		return value;
 	}
 
+	@Override
+	public Option<T> orElse(@Nullable T alternative) {
+		return this;
+	}
+
+	@Override
+	public Option<T> orElse(@NotNull Supplier<T> alternative) {
+		return this;
+	}
+
 	@NotNull
 	@Override
 	public <R> Option<R> map(Function<T, R> f) {

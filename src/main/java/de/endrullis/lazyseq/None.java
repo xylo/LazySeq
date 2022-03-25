@@ -40,6 +40,16 @@ public class None implements Option {
 		return null;
 	}
 
+	@Override
+	public Option orElse(@Nullable Object alternative) {
+		return Option.of(alternative);
+	}
+
+	@Override
+	public Option orElse(@NotNull Supplier alternative) {
+		return Option.of(alternative.get());
+	}
+
 	@NotNull
 	@Override
 	public Option map(Function f) {

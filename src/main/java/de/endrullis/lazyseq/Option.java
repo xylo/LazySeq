@@ -101,6 +101,20 @@ public interface Option<T> extends Supplier<T>, Iterable<T> {
 	@Nullable
 	T getOrNull();
 
+	/**
+	 * Returns this Option in case of Some(value) or else the given alternative as Option.
+	 * @param alternative  alternative value to return as Option in case of None
+	 * @return this Option in case of Some(value) or else the given alternative as Option
+	 */
+	Option<T> orElse(@Nullable T alternative);
+
+	/**
+	 * Returns this Option in case of Some(value) or else the given alternative as Option.
+	 * @param alternative  alternative value to return as Option in case of None
+	 * @return this Option in case of Some(value) or else the given alternative as Option
+	 */
+	Option<T> orElse(@NotNull Supplier<T> alternative);
+
 	@NotNull
 	<R> Option<R> map(Function<T, R> f);
 
