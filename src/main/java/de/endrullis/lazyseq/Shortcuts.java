@@ -1,6 +1,7 @@
 package de.endrullis.lazyseq;
 
 import de.endrullis.lazyseq.function.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.*;
@@ -92,6 +93,134 @@ public class Shortcuts {
 		HashSet<T> set = new HashSet<>();
 		Collections.addAll(set, elements);
 		return set;
+	}
+
+	/**
+	 * Returns a lazy sequence with the given element.
+	 *
+	 * @param <T>     element type
+	 * @param element element of the new LazySeq
+	 * @return lazy sequence with the given element
+	 */
+	@NotNull
+	public static <T> LazySeq<T> ls(@NotNull T element) {
+		return LazySeq.of(element);
+	}
+
+	/**
+	 * Returns a lazy sequence with the given elements.
+	 *
+	 * @param <T>      element type
+	 * @param elements elements of the new LazySeq
+	 * @return lazy sequence with the given elements
+	 */
+	@SafeVarargs
+	@NotNull
+	public static <T> LazySeq<T> ls(@NotNull T... elements) {
+		return LazySeq.of(elements);
+	}
+
+	/**
+	 * Returns a lazy sequence with the given elements.
+	 *
+	 * @param <T>      element type
+	 * @param elements elements of the new LazySeq
+	 * @return lazy sequence with the given elements
+	 */
+	@NotNull
+	public static <T> LazySeq<T> ls(@NotNull Iterable<T> elements) {
+		return LazySeq.of(elements);
+	}
+
+	/**
+	 * Returns a lazy sequence with the given elements.
+	 *
+	 * @param <T>      element type
+	 * @param elements elements of the new LazySeq
+	 * @return lazy sequence with the given elements
+	 */
+	@NotNull
+	public static <T> LazySeq<T> ls(@NotNull Iterator<T> elements) {
+		return LazySeq.of(elements);
+	}
+
+	/**
+	 * Returns a lazy tuple sequence with the given tuples.
+	 *
+	 * @param <K>   key type
+	 * @param <V>   value type
+	 * @param tuple tuples of the new LazyTupleSeq
+	 * @return lazy tuple sequence with the given tuples
+	 */
+	@NotNull
+	public static <K, V> LazyTupleSeq<K, V> lts(@NotNull Tuple<K, V> tuple) {
+		return lts(ls(tuple));
+	}
+
+	/**
+	 * Returns a lazy tuple sequence with the given tuples.
+	 *
+	 * @param <K>    key type
+	 * @param <V>    value type
+	 * @param tuples tuples of the new LazyTupleSeq
+	 * @return lazy tuple sequence with the given tuples
+	 */
+	@SafeVarargs
+	@NotNull
+	public static <K, V> LazyTupleSeq<K, V> lts(@NotNull Tuple<K, V>... tuples) {
+		return lts(ls(tuples));
+	}
+
+	/**
+	 * Returns a lazy tuple sequence with the given tuples.
+	 *
+	 * @param <K>    key type
+	 * @param <V>    value type
+	 * @param tuples tuples of the new LazyTupleSeq
+	 * @return lazy tuple sequence with the given tuples
+	 */
+	@NotNull
+	public static <K, V> LazyTupleSeq<K, V> lts(@NotNull Iterable<Tuple<K, V>> tuples) {
+		return lts(ls(tuples));
+	}
+
+	/**
+	 * Returns a lazy tuple sequence with the given tuples.
+	 *
+	 * @param <K>    key type
+	 * @param <V>    value type
+	 * @param tuples tuples of the new LazyTupleSeq
+	 * @return lazy tuple sequence with the given tuples
+	 */
+	@NotNull
+	public static <K, V> LazyTupleSeq<K, V> lts(@NotNull Iterator<Tuple<K, V>> tuples) {
+		return lts(ls(tuples));
+	}
+
+	/**
+	 * Returns a lazy tuple sequence with the given tuples.
+	 *
+	 * @param <K>    key type
+	 * @param <V>    value type
+	 * @param tuples tuples of the new LazyTupleSeq
+	 * @return lazy tuple sequence with the given tuples
+	 */
+	@NotNull
+	public static <K, V> LazyTupleSeq<K, V> lts(@NotNull LazySeq<Tuple<K, V>> tuples) {
+		return new LazyTupleSeq<>(tuples);
+	}
+
+	/**
+	 * Returns a lazy tuple sequence derived from the given map.
+	 *
+	 * @param <K> key type
+	 * @param <V> value type
+	 * @param map map used for building the new LazyTupleSeq
+	 * @return lazy tuple sequence derived from the given map
+	 */
+	@NotNull
+	public static <K, V> LazyTupleSeq<K, V> lts(@NotNull Map<K, V> map) {
+		return new LazyTupleSeq<>(map);
 	}
 
 }
