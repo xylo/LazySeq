@@ -20,7 +20,6 @@ import static de.endrullis.lazyseq.Shortcuts.t;
 @SuppressWarnings("WeakerAccess")
 public abstract class LazySeq<E> extends AbstractList<E> {
 
-	@SuppressWarnings("unchecked")
 	public static <E> LazySeq<E> empty() {
 		return Nil.instance();
 	}
@@ -901,7 +900,7 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 		if (this == o) return true;
 		if (!(o instanceof LazySeq)) return false;
 
-		LazySeq right = (LazySeq) o;
+		LazySeq<?> right = (LazySeq<?>) o;
 		return !right.isEmpty() &&
 				head().equals(right.head()) &&
 				tail().equals(right.tail());
