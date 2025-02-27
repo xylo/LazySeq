@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import static de.endrullis.lazyseq.CastUtils.cast;
@@ -120,6 +121,9 @@ public interface Option<T> extends Supplier<T>, Iterable<T> {
 
 	@NotNull
 	<R> Option<R> flatMap(Function<T, Option<R>> f);
+
+	@NotNull
+	Option<T> filter(@NotNull Predicate<? super T> predicate);
 
 	/**
 	 * Returns true if this option has a value.

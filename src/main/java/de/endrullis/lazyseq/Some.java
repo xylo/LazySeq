@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -82,6 +83,15 @@ public class Some<T> implements Option<T> {
 	@Override
 	public <R> Option<R> flatMap(Function<T, Option<R>> f) {
 		return f.apply(value);
+	}
+
+	@NotNull
+	public Option<T> filter(@NotNull Predicate<? super T> predicate) {
+		if (predicate.test(value)) {
+			return this;
+		} else {
+			return Option.none();
+		}
 	}
 
 	@Override
