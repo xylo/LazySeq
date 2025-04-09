@@ -6,39 +6,38 @@ import static de.endrullis.lazyseq.Option.empty;
 import static de.endrullis.lazyseq.Option.of;
 import static org.fest.assertions.api.Assertions.assertThat;
 
-
 /**
  * @author Stefan Endrullis (stefan@endrullis.de)
  */
 public class OptionFilterTest extends AbstractBaseTestCase {
 
 	@Test
-	public void shouldReturnEmptyOptionWhenDoubleZippedWithEmptyOptions() throws Exception {
-		//given
-		final Option<Integer> empty = empty();
-		final Option<Integer> nonEmpty1 = of(1);
-		final Option<Integer> nonEmpty2 = of(2);
-
-		//when
-		TupleOption<Tuple<Integer, Integer>, Integer> zipped = nonEmpty1.zip(empty).zip(nonEmpty2);
-
-		//then
-		assertThat(zipped).isEmpty();
+	public void shouldReturnEmptyOptionSeqWhenFilteringEmptyOption() throws Exception {
+		assertThat(empty().filter(x -> true)).isEqualTo(empty());
 	}
 
 	@Test
-	public void shouldReturnNonEmptyOptionWhenZippingNonEmptyOptions() throws Exception {
+	public void shouldReturnEmptyOptionWhenElementNotMatchingPredicate() throws Exception {
 		//given
-		final Option<Integer> nonEmpty1 = of(1);
-		final Option<Integer> nonEmpty2 = of(2);
-		final Option<Integer> nonEmpty3 = of(3);
+		final Option<Integer> fixed = of(1);
 
 		//when
-		TupleOption<Tuple<Integer, Integer>, Integer> zipped = nonEmpty1.zip(nonEmpty2).zip(nonEmpty3);
+		final Option<Integer> filtered = fixed.filter(x -> x < 0);
 
 		//then
-		assertThat(zipped).isNotEmpty();
-		assertThat(zipped.get()).isEqualTo(new Tuple<>(new Tuple<>(1, 2), 3));
+		assertThat(filtered).isEmpty();
+	}
+
+	@Test
+	public void shouldReturnNonEmptyOptionWhenElementMatchingPredicate() throws Exception {
+		//given
+		final Option<Integer> fixed = of(1);
+
+		//when
+		final Option<Integer> filtered = fixed.filter(x -> x > 0);
+
+		//then
+		assertThat(filtered).isNotEmpty();
 	}
 
 }
