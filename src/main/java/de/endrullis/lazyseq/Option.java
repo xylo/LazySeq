@@ -169,4 +169,19 @@ public interface Option<T> extends Supplier<T>, Iterable<T> {
 		return LazySeq.of(iterator());
 	}
 
+	/**
+	 * Returns the result of merging both option values into a tuple option.
+	 *
+	 * @param that the other option
+	 * @return the result of merging both option values into a tuple option.
+	 * @param <T2> type of the other option
+	 */
+	default <T2> Option<Tuple<T, T2>> join(Option<T2> that) {
+		if (this.isDefined() && that.isDefined()) {
+			return Option.of(new Tuple<>(this.get(), that.get()));
+		} else {
+			return Option.empty();
+		}
+	}
+
 }
