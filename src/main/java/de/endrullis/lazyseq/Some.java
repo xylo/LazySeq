@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 /**
  * Java 8 implementation of Scala's Some.
  *
- * @author Stefan Endrullis (endrullis@iat.uni-leipzig.de)
+ * @author Stefan Endrullis (stefan@endrullis.de)
  */
 @SuppressWarnings("unused")
 public class Some<T> implements Option<T> {
@@ -75,13 +75,13 @@ public class Some<T> implements Option<T> {
 
 	@NotNull
 	@Override
-	public <R> Option<R> map(Function<T, R> f) {
+	public <R> Option<R> map(@NotNull Function<T, R> f) {
 		return Option.apply(f.apply(value));
 	}
 
 	@NotNull
 	@Override
-	public <R> Option<R> flatMap(Function<T, Option<R>> f) {
+	public <R> Option<R> flatMap(@NotNull Function<T, Option<R>> f) {
 		return f.apply(value);
 	}
 

@@ -53,13 +53,13 @@ public class None implements Option {
 
 	@NotNull
 	@Override
-	public Option map(Function f) {
+	public Option map(@NotNull Function f) {
 		return Option.NONE;
 	}
 
 	@NotNull
 	@Override
-	public Option flatMap(Function f) {
+	public Option flatMap(@NotNull Function f) {
 		return Option.NONE;
 	}
 

@@ -117,10 +117,10 @@ public interface Option<T> extends Supplier<T>, Iterable<T> {
 	Option<T> orElse(@NotNull Supplier<T> alternative);
 
 	@NotNull
-	<R> Option<R> map(Function<T, R> f);
+	<R> Option<R> map(@NotNull Function<T, R> f);
 
 	@NotNull
-	<R> Option<R> flatMap(Function<T, Option<R>> f);
+	<R> Option<R> flatMap(@NotNull Function<T, Option<R>> f);
 
 	@NotNull
 	Option<T> filter(@NotNull Predicate<? super T> predicate);
@@ -176,11 +176,11 @@ public interface Option<T> extends Supplier<T>, Iterable<T> {
 	 * @return the result of merging both option values into a tuple option.
 	 * @param <T2> type of the other option
 	 */
-	default <T2> Option<Tuple<T, T2>> join(Option<T2> that) {
+	default <T2> TupleOption<T, T2> zip(Option<T2> that) {
 		if (this.isDefined() && that.isDefined()) {
-			return Option.of(new Tuple<>(this.get(), that.get()));
+			return new TupleOption<>(Option.of(new Tuple<>(this.get(), that.get())));
 		} else {
-			return Option.empty();
+			return new TupleOption<>(Option.empty());
 		}
 	}
 
