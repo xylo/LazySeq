@@ -360,6 +360,17 @@ public abstract class LazySeq<E> extends AbstractList<E> {
 	public abstract <R> LazySeq<R> flatMap(@NotNull Function<? super E, ? extends Iterable<? extends R>> mapper);
 
 	@NotNull
+	public <R> LazySeq<R> flatMapEx(@NotNull ExceptionFunction<? super E, ? extends Iterable<? extends R>, ? extends Exception> mapper) {
+		return flatMap(i -> {
+			try {
+				return mapper.apply(i);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		});
+	}
+
+	@NotNull
 	public LazySeq<E> limit(long maxSize) {
 		return take(maxSize);
 	}
